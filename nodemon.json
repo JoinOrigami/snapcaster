@@ -1,0 +1,7 @@
+{
+  "watch": ["server"],
+  "ignore": [],
+  "ext": "ts,js",
+  "quiet": true,
+  "exec": "esbuild ${ESBUILD_TARGET}.ts --color=true --bundle --platform=node --target=node18 --outfile=.esbuild/${ESBUILD_TARGET}.js && node ./.esbuild/${ESBUILD_TARGET}.js"
+}

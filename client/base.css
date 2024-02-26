@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .light-theme {
+    --color-base-100: 254 254 254;
+    --color-base-200: 250 250 250;
+    --color-base-300: 242 244 247;
+    --color-content: 0 11 28;
+    --color-primary: 177 234 72;
+  }
+
+  .dark-theme {
+    --color-base-100: 43 45 44;
+    --color-base-200: 57 58 57;
+    --color-base-300: 64 68 67;
+    --color-content: 250 250 250;
+    --color-primary: 187 229 112;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      @apply light-theme;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      @apply dark-theme;
+    }
+  }
+
+  :root {
+    @apply bg-base-100 text-content;
+  }
+
+  ::selection {
+    @apply bg-primary/70;
+  }
+
+  html {
+    @apply antialiased font-sans;
+  }
+
+  * {
+    line-height: 120%;
+    @apply focus-visible:outline-none focus-visible:ring-primary/30;
+  }
+
+  h1 {
+    @apply text-3xl font-semibold;
+
+    line-height: 130%;
+  }
+
+  h2 {
+    @apply text-xl font-bold;
+
+    line-height: 130%;
+  }
+
+  h3 {
+    @apply text-lg font-medium;
+  }
+
+  h4,
+  h5,
+  h6 {
+    @apply font-medium;
+  }
+
+  @screen lg {
+    h1 {
+      @apply text-4xl;
+
+      line-height: 150%;
+    }
+
+    h2 {
+      @apply text-2xl;
+
+      line-height: 150%;
+    }
+
+    h3 {
+      @apply text-xl;
+
+      line-height: 130%;
+    }
+  }
+
+  p {
+    line-height: 130%;
+  }
+
+  @screen lg {
+    p {
+      line-height: 150%;
+    }
+  }
+}
+
+@layer components {
+  .link {
+    @apply text-primary underline hover:opacity-80 cursor-pointer font-medium;
+  }
+}

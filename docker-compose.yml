@@ -1,0 +1,25 @@
+services:
+  server:
+    command: ["yarn", "server"]
+    <<: &service
+      image: node:18
+      working_dir: /src
+      volumes:
+        - .:/src
+        - node-modules:/src/node_modules
+        - yarn-cache:/src/.yarn-cache
+      environment:
+        - YARN_CACHE_FOLDER=/src/.yarn-cache
+      env_file: .env
+    ports:
+      - "3001:3001"
+
+  client:
+    command: ["yarn", "client"]
+    <<: *service
+    ports:
+      - "3000:5173"
+
+volumes:
+  node-modules:
+  yarn-cache:
