@@ -1,4 +1,13 @@
 services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
   server:
     command: ["yarn", "server"]
     <<: &service
@@ -23,3 +32,4 @@ services:
 volumes:
   node-modules:
   yarn-cache:
+  postgres-data:
