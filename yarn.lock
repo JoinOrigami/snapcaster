@@ -457,6 +457,14 @@
     ajv-formats "^2.1.1"
     fast-uri "^2.0.0"
 
+"@fastify/cookie@^9.0.4":
+  version "9.3.1"
+  resolved "https://registry.yarnpkg.com/@fastify/cookie/-/cookie-9.3.1.tgz#48b89a356a23860c666e2fe522a084cc5c943d33"
+  integrity sha512-h1NAEhB266+ZbZ0e9qUE6NnNR07i7DnNXWG9VbbZ8uC6O/hxHpl+Zoe5sw1yfdZ2U6XhToUGDnzQtWJdCaPwfg==
+  dependencies:
+    cookie-signature "^1.1.0"
+    fastify-plugin "^4.0.0"
+
 "@fastify/error@^3.3.0", "@fastify/error@^3.4.0":
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/@fastify/error/-/error-3.4.1.tgz#b14bb4cac3dd4ec614becbc643d1511331a6425c"
@@ -475,6 +483,15 @@
   integrity sha512-fERDVz7topgNjtXsJTTW1JKLy0rhuLRcquYqNR9rF7OcVpCa2OVW49ZPDIhaRRCaUuvVxI+N416xUoF76HNSXA==
   dependencies:
     fast-deep-equal "^3.1.3"
+
+"@fastify/secure-session@^7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@fastify/secure-session/-/secure-session-7.1.0.tgz#7ea388377b75d11f6f34cc346d6c9c39f12de018"
+  integrity sha512-x0ZW57+sf6fQaL05B3n64m7DRe81NAtFAKpCKKuqdX9FDqzOH5uQbfDDfVQy2/qhDn3N343RMlNtY1iQyvvA9A==
+  dependencies:
+    "@fastify/cookie" "^9.0.4"
+    fastify-plugin "^4.0.0"
+    sodium-native "^4.0.0"
 
 "@fastify/sensible@^5.5.0":
   version "5.5.0"
@@ -1005,6 +1022,11 @@ convert-source-map@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-2.0.0.tgz#4b560f649fc4e918dd0ab75cf4961e8bc882d82a"
   integrity sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==
+
+cookie-signature@^1.1.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.2.1.tgz#790dea2cce64638c7ae04d9fabed193bd7ccf3b4"
+  integrity sha512-78KWk9T26NhzXtuL26cIJ8/qNHANyJ/ZYrmEXFzUmhZdjpBv+DlWlOANRTGBt48YcyslsLrj0bMLFTmXvLRCOw==
 
 cookie@^0.6.0:
   version "0.6.0"
@@ -1664,6 +1686,11 @@ nanoid@^3.3.7:
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.7.tgz#d0c301a691bc8d54efa0a2226ccf3fe2fd656bd8"
   integrity sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==
 
+node-gyp-build@^4.6.0:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.8.0.tgz#3fee9c1731df4581a3f9ead74664369ff00d26dd"
+  integrity sha512-u6fs2AEUljNho3EYTJNBfImO5QTo/J/1Etd+NVdCj7qWKUSN/bSLkZwhDv7I+w/MSC6qJ4cknepkAYykDdK8og==
+
 node-releases@^2.0.14:
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.14.tgz#2ffb053bceb8b2be8495ece1ab6ce600c4461b0b"
@@ -2251,6 +2278,13 @@ simple-update-notifier@^2.0.0:
   integrity sha512-a2B9Y0KlNXl9u/vsW6sTIu9vGEpfKu2wRV6l1H3XEas/0gUIzGzBoP/IouTcUQbm9JWZLH3COxyn03TYlFax6w==
   dependencies:
     semver "^7.5.3"
+
+sodium-native@^4.0.0:
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/sodium-native/-/sodium-native-4.0.10.tgz#24af8db06518807a8ddf4e5143d819f14bf7a837"
+  integrity sha512-vrJQt4gASntDbnltRRk9vN4rks1SehjM12HkqQtu250JtWT+/lo8oEOa1HvSq3+8hzJdYcCJuLR5qRGxoRDjAg==
+  dependencies:
+    node-gyp-build "^4.6.0"
 
 sonic-boom@^3.7.0:
   version "3.8.0"

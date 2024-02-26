@@ -9,6 +9,7 @@
     "typegen": "kyseyl-codegen"
   },
   "dependencies": {
+    "@fastify/secure-session": "^7.1.0",
     "@fastify/sensible": "^5.5.0",
     "@fastify/type-provider-typebox": "^4.0.0",
     "@sinclair/typebox": "^0.32.14",
