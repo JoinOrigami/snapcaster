@@ -1,5 +1,5 @@
 {
-  "name": "@votes/server",
+  "name": "@snapcaster/server",
   "version": "0.0.0",
   "private": true,
   "scripts": {

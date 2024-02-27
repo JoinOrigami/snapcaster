@@ -1,4 +1,4 @@
-import type { FastifyInstance } from "@votes/server/types/fastify";
+import type { FastifyInstance } from "@snapcaster/server/types/fastify";
 
 import auth from "./auth";
 

@@ -31,7 +31,7 @@ services:
       environment:
         - YARN_CACHE_FOLDER=/src/.yarn-cache
       env_file: .env
-    command: ["yarn", "workspace", "@votes/server", "dev"]
+    command: ["yarn", "workspace", "@snapcaster/server", "dev"]
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.server.entrypoints=web"
@@ -41,7 +41,7 @@ services:
       - "traefik.http.routers.server.middlewares=strip-api"
 
   client:
-    command: ["yarn", "workspace", "@votes/client", "dev"]
+    command: ["yarn", "workspace", "@snapcaster/client", "dev"]
     <<: *service
     labels:
       - "traefik.enable=true"

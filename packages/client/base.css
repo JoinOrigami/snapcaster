@@ -12,9 +12,9 @@
   }
 
   .dark-theme {
-    --color-base-100: 43 45 44;
-    --color-base-200: 57 58 57;
-    --color-base-300: 64 68 67;
+    --color-base-100: 29 36 48;
+    --color-base-200: 45 53 68;
+    --color-base-300: 74 84 100;
     --color-content: 250 250 250;
     --color-primary: 187 229 112;
   }
@@ -32,11 +32,21 @@
   }
 
   :root {
+    --gutter-r: 20px;
+    --gutter-l: 20px;
+
     @apply bg-base-100 text-content;
   }
 
+  @screen sm {
+    :root {
+      --gutter-r: 32px;
+      --gutter-l: 32px;
+    }
+  }
+
   ::selection {
-    @apply bg-primary/70;
+    @apply bg-primary text-black/80;
   }
 
   html {
@@ -104,5 +114,19 @@
 @layer components {
   .link {
     @apply text-primary underline hover:opacity-80 cursor-pointer font-medium;
+  }
+
+  .no-gutter {
+    margin-left: calc(var(--gutter-l) * -1);
+    margin-right: calc(var(--gutter-r) * -1);
+  }
+
+  .no-gutter.w-full {
+    width: calc(100% + var(--gutter-l) + var(--gutter-r));
+  }
+
+  .px-gutter {
+    padding-left: var(--gutter-l);
+    padding-right: var(--gutter-r);
   }
 }
