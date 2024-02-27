@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { 
   AuthKitProvider,
@@ -7,7 +9,7 @@ import {
 import '@farcaster/auth-kit/styles.css';
 import toast from "react-hot-toast";
 
-import api from "@votes/client/api";
+import api from "@snapcaster/client/api";
 
 const config = {
   domain: "localhost:3000",

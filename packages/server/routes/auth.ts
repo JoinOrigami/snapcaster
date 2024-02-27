@@ -1,8 +1,8 @@
 import { randomBytes } from "crypto";
 import { createAppClient, viemConnector } from "@farcaster/auth-client";
 
-import * as S from "@votes/server/schemas/auth";
-import type { FastifyInstance } from "@votes/server/types/fastify";
+import * as S from "@snapcaster/server/schemas/auth";
+import type { FastifyInstance } from "@snapcaster/server/types/fastify";
 import { createUser } from "@db/user";
 
 async function routes(fastify: FastifyInstance) {

@@ -31,6 +31,16 @@ module.exports = {
         primary: {
           DEFAULT: withAlphaChannel("--color-primary"),
         },
+
+        gray: {
+          100: "#4A5464",
+          200: "#919AA9",
+          300: "#B2BBCA",
+          400: "#D7DBE1",
+          500: "#DEE3EB",
+          600: "#F2F4F7",
+          700: "#FAFAFA",
+        },
       },
       boxShadow: {
         DEFAULT: "0px 4px 25px rgba(0, 11, 28, 0.1)",
