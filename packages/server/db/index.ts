@@ -11,7 +11,6 @@ export type DraftProposal = Omit<BaseProposal, "uid"> & { uid: never };
 export type Proposal = O.NonNullable<DraftProposal,
   | "uid"
   | "title"
-  | "summary"
   | "start_timestamp"
   | "end_timestamp"
   | "eligibility_type"

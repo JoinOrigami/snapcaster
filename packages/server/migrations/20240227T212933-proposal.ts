@@ -16,7 +16,6 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("proposer_id", "integer", (c) => c.references("user.id").notNull())
     .addCheckConstraint("fields_nullable_draft_only", sql`uid IS NULL OR (
       title IS NOT NULL AND
-      summary IS NOT NULL AND
       start_timestamp IS NOT NULL AND
       end_timestamp IS NOT NULL AND
       eligibility_type IS NOT NULL AND
