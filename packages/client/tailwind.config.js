@@ -1,12 +1,9 @@
 module.exports = {
-  content: ["./client/**/*.{ts,tsx}"],
+  content: ["**/*.{ts,tsx}"],
   mode: "jit",
   darkMode: "media",
   theme: {
     extend: {
-      fontFamily: {
-        sans: ["Outfit", "sans-serif"],
-      },
       fontSize: {
         xs: 12,
         sm: 14,

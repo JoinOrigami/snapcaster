@@ -40,7 +40,7 @@
   }
 
   html {
-    @apply antialiased font-sans;
+    @apply antialiased;
   }
 
   * {

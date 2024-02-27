@@ -8,6 +8,18 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  traefik:
+    image: traefik:v2.9
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entryPoints.web.transport.lifeCycle.graceTimeOut=0"
+    ports:
+      - "3000:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
   server:
     <<: &service
       image: node:18
@@ -19,15 +31,23 @@ services:
       environment:
         - YARN_CACHE_FOLDER=/src/.yarn-cache
       env_file: .env
-    command: ["yarn", "server"]
-    ports:
-      - "3001:3001"
+    command: ["yarn", "workspace", "@votes/server", "dev"]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.server.entrypoints=web"
+      - "traefik.http.routers.server.rule=PathPrefix(`/api`)"
+      - "traefik.http.services.server.loadbalancer.server.port=3001"
+      - "traefik.http.middlewares.strip-api.stripprefix.prefixes=/api"
+      - "traefik.http.routers.server.middlewares=strip-api"
 
   client:
-    command: ["yarn", "client"]
-    ports:
-      - "3000:5173"
+    command: ["yarn", "workspace", "@votes/client", "dev"]
     <<: *service
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.client.entrypoints=web"
+      - "traefik.http.routers.client.rule=!PathPrefix(`/api`)"
+      - "traefik.http.services.client.loadbalancer.server.port=3000"
 
 volumes:
   node-modules:
