@@ -3,10 +3,17 @@ import sensible from "@fastify/sensible";
 import session from "@fastify/secure-session";
 import ajvFormats from "ajv-formats";
 
+import { FORMATS } from "@schemas/utils";
+import auth from "./plugins/auth";
 import routes from "./routes";
 
 const server = fastify({
-  ajv: { plugins: [ajvFormats] },
+  ajv: {
+    plugins: [ajvFormats],
+    customOptions: {
+      formats: FORMATS,
+    },
+  },
 });
 
 server.register(sensible);
@@ -19,6 +26,9 @@ server.register(session, {
     maxAge: 3600 * 24 * 7 * 1000,
   },
 });
+
+// custom plugins
+server.register(auth);
 
 server.register(routes);
 

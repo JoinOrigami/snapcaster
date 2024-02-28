@@ -36,7 +36,7 @@ async function routes(fastify: FastifyInstance) {
       fastify.assert(success, 400)
 
       request.session.set("nonce", null);
-      request.session.set("fid", fid);
+      request.session.set("fid", fid.toString());
 
       return { success: true };
     }

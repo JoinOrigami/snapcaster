@@ -23,3 +23,11 @@ export const updateProposal = async (
     .returningAll()
     .executeTakeFirstOrThrow();
 };
+
+export const findProposalById = async (id: number) => {
+  return await db
+    .selectFrom("proposal")
+    .where("id", "=", id)
+    .selectAll()
+    .executeTakeFirst();
+}
