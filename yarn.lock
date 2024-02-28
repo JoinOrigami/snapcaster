@@ -24,6 +24,11 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@coinbase/onchainkit@^0.9.5":
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/@coinbase/onchainkit/-/onchainkit-0.9.5.tgz#e4e9afa8c3e19ec4122253e966750d07a43c1f29"
+  integrity sha512-uUwQMt8AGh1mJzxP4RhfuZN5FVMVBGkSlK7OBdC6N8NtIiX5fROcGf5EuW/qmB3H6jORAU6LPx257QBQg1sHBA==
+
 "@commander-js/extra-typings@^11.0.0":
   version "11.1.0"
   resolved "https://registry.yarnpkg.com/@commander-js/extra-typings/-/extra-typings-11.1.0.tgz#dd19fcb8cc6e33ede237fc1b7af96c70833d8f93"

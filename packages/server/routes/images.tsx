@@ -15,8 +15,8 @@ const outfitRegular = fs.readFileSync(
 );
 
 const imageConfig = {
-  width: 600,
-  height: 400,
+  width: 800,
+  height: 418,
   fonts: [
     {
       name: "Outfit",
@@ -27,7 +27,7 @@ const imageConfig = {
     {
       name: "Outfit",
       data: outfitRegular,
-      weight: 400 as const,
+      weight: 400,
       style: "normal",
     } as const,
   ],
