@@ -20,5 +20,8 @@
     "noFallthroughCasesInSwitch": true,
     "outDir": "build"
   },
-  "include": ["server"]
+  "include": [
+    "packages/**/*.ts",
+    "packages/**/*.tsx"
+  ]
 }
