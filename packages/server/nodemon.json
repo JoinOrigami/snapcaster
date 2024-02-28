@@ -1,7 +1,7 @@
 {
-  "watch": ["**/*.ts"],
-  "ignore": [],
-  "ext": "ts,js",
+  "watch": ["*"],
+  "ignore": ["node_modules"],
+  "ext": "ts,js,tsx",
   "quiet": true,
-  "exec": "esbuild ${ESBUILD_TARGET}.ts --color=true --bundle --platform=node --target=node18 --outfile=.esbuild/${ESBUILD_TARGET}.js --external:sodium-native && node ./.esbuild/${ESBUILD_TARGET}.js"
+  "exec": "esbuild ${ESBUILD_TARGET}.ts --color=true --bundle --platform=node --target=node18 --outfile=.esbuild/${ESBUILD_TARGET}.js --external:sodium-native --external:@resvg/resvg-js && node ./.esbuild/${ESBUILD_TARGET}.js"
 }
