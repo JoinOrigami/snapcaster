@@ -1,8 +1,8 @@
-import { Hex, encodeAbiParameters, getContract, pad, parseAbiParameters } from "viem";
+import { Hex, encodeAbiParameters, getContract, keccak256, pad, parseAbiParameters } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { getUnixTime } from "date-fns";
 
-import { CompletedProposal } from "@snapcaster/server/db";
+import { CompletedProposal, Vote } from "@snapcaster/server/db";
 import { publicClient, walletClient } from "./rpc";
 import { EAS } from "./abi";
 import { Selectable } from "kysely";
@@ -12,6 +12,11 @@ const EAS_ADDRESS = "0x4200000000000000000000000000000000000021";
 const PROPOSAL_SCHEMA = {
   uid: "0xf3c83d778e0ccde8dcc959ad907f5c7e82a05728a3a4eafc7370138bc8b003e8",
   schema: "string title,bytes32 summary,bytes32 description,uint64 startTimestamp,uint64 endTimestamp,string eligibilityType,address eligibilityContract,uint256 eligibilityThreshold",
+} as const;
+
+const VOTE_SCHEMA = {
+  uid: "0x22d9d1cb77d5f59a07fbb270fbd26ae3ff833792a5c5be77b7994b0ea3617f92",
+  schema: "uint64 voterFID,uint8 choice,bytes signature",
 } as const;
 
 const getEASContract = () => {
@@ -29,8 +34,8 @@ export async function createProposalAttestation(proposal: Selectable<CompletedPr
   const eas = getEASContract();
   const args = [
     proposal.title,
-    pad(`0x${Buffer.from(proposal.summary || "").toString("hex")}`),
-    pad(`0x${Buffer.from(proposal.description || "").toString("hex")}`),
+    keccak256(Buffer.from(proposal.summary || "")),
+    keccak256(Buffer.from(proposal.description || "")),
     BigInt(getUnixTime(proposal.start_timestamp)),
     BigInt(getUnixTime(proposal.end_timestamp)),
     proposal.eligibility_type,
@@ -52,6 +57,39 @@ export async function createProposalAttestation(proposal: Selectable<CompletedPr
       expirationTime: 0n,
       value: 0n,
       refUID: pad("0x0")
+    }
+  }], {
+    value: 0n,
+    account: privateKeyToAccount(process.env.ATTESTER_PRIVATE_KEY as Hex),
+  });
+
+  return uid;
+}
+
+export async function createVoteAttestation(vote: Selectable<Vote> & {
+  proposal_uid: Hex;
+}) {
+  const eas = getEASContract();
+  const args = [
+    BigInt(vote.voter_fid),
+    vote.choice,
+    vote.signature as Hex,
+  ] as const;
+
+  const data = encodeAbiParameters(
+    parseAbiParameters(VOTE_SCHEMA.schema),
+    args,
+  );
+
+  const uid = await eas.write.attest([{
+    schema: VOTE_SCHEMA.uid,
+    data: {
+      data,
+      recipient: "0x0000000000000000000000000000000000000000",
+      revocable: false,
+      expirationTime: 0n,
+      value: 0n,
+      refUID: vote.proposal_uid,
     }
   }], {
     value: 0n,
