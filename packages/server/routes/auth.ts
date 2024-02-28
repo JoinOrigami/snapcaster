@@ -3,7 +3,6 @@ import { createAppClient, viemConnector } from "@farcaster/auth-client";
 
 import * as S from "@snapcaster/server/schemas/auth";
 import type { FastifyInstance } from "@snapcaster/server/types/fastify";
-import { createUser } from "@db/user";
 
 async function routes(fastify: FastifyInstance) {
   fastify.post("/auth/nonce", {
@@ -36,9 +35,8 @@ async function routes(fastify: FastifyInstance) {
 
       fastify.assert(success, 400)
 
-      const user = await createUser({ fid });
       request.session.set("nonce", null);
-      request.session.set("user_id", user.id);
+      request.session.set("fid", fid);
 
       return { success: true };
     }
