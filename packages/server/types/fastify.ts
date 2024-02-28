@@ -17,5 +17,6 @@ export type FastifyInstance = FInstance<
 
 declare module "fastify" {
   interface FastifyRequest {
+    fid?: string;
   }
 }
