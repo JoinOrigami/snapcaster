@@ -14,8 +14,9 @@ const frameMetadata = getFrameMetadata({
     { label: "Create on the web" },
     { label: "About" },
   ],
+  state: {},
   image: `${BASE_URL}/api/images/start`,
-  postUrl: `${BASE_URL}/api/proposals/new`,
+  postUrl: `${BASE_URL}/proposals/new`,
 });
 
 export const metadata: Metadata = {
