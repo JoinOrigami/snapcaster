@@ -16,6 +16,8 @@ export type Proposal = O.NonNullable<DraftProposal,
   | "eligibility_type"
 >;
 
+export type CompletedProposal = O.Nullable<Proposal, "uid">;
+
 const dialect = new PostgresDialect({
   pool: new Pool({
     connectionString: process.env.DATABASE_URL,
