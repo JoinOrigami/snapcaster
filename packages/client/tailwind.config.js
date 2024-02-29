@@ -1,3 +1,5 @@
+import plugin from "tailwindcss/plugin";
+
 module.exports = {
   content: ["**/*.{ts,tsx}"],
   mode: "jit",
@@ -52,6 +54,24 @@ module.exports = {
       lg: "1172px",
     },
   },
+  plugins: [
+    // reverse breakpoints. e.g. below-lg:* will apply styles to
+    // screens _smaller_ than lg
+    plugin(function ({ addVariant }) {
+      addVariant(
+        "below-lg",
+        "@media screen and (max-width: calc(theme('screens.lg') - 1px))"
+      );
+      addVariant(
+        "below-md",
+        "@media screen and (max-width: calc(theme('screens.md') - 1px))"
+      );
+      addVariant(
+        "below-sm",
+        "@media screen and (max-width: calc(theme('screens.sm') - 1px))"
+      );
+    }),
+  ],
 };
 
 function withAlphaChannel(color) {

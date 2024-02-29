@@ -7,8 +7,8 @@
     --color-base-100: 254 254 254;
     --color-base-200: 250 250 250;
     --color-base-300: 242 244 247;
-    --color-content: 0 11 28;
-    --color-primary: 177 234 72;
+    --color-content: 0 0 52;
+    --color-primary: 245 173 255;
   }
 
   .dark-theme {
@@ -16,7 +16,7 @@
     --color-base-200: 45 53 68;
     --color-base-300: 74 84 100;
     --color-content: 250 250 250;
-    --color-primary: 187 229 112;
+    --color-primary: 0 255 251;
   }
 
   @media (prefers-color-scheme: light) {

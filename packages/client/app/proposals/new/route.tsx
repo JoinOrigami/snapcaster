@@ -10,7 +10,6 @@ const NEYNAR_API_KEY = process.env.NEYNAR_API_KEY;
 
 export async function POST(req: NextRequest): Promise<Response> {
   const body: FrameRequest = await req.json();
-  console.log({ body: JSON.stringify(body) });
   const { isValid, message } = await getFrameMessage(body, {
     neynarApiKey: NEYNAR_API_KEY,
   });
