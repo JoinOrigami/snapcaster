@@ -7,11 +7,17 @@ import { loadEmoji, getIconCode } from "../lib/twemoji";
 
 import type { FastifyInstance } from "@snapcaster/server/types/fastify";
 
+const BASE_URL = process.env.BASE_URL;
+
 const outfitMedium = fs.readFileSync(
   path.join(__dirname, "..", "fonts", "Outfit-Medium.otf")
 );
 const outfitRegular = fs.readFileSync(
   path.join(__dirname, "..", "fonts", "Outfit-Regular.otf")
+);
+
+const poppins = fs.readFileSync(
+  path.join(__dirname, "..", "fonts", "Poppins-Regular.ttf")
 );
 
 const imageConfig = {
@@ -28,6 +34,12 @@ const imageConfig = {
       name: "Outfit",
       data: outfitRegular,
       weight: 400,
+      style: "normal",
+    } as const,
+    {
+      name: "Poppins",
+      data: poppins,
+      weight: 500,
       style: "normal",
     } as const,
   ],
@@ -48,7 +60,8 @@ async function routes(fastify: FastifyInstance) {
       const svg = await satori(
         <div
           style={{
-            backgroundColor: "#fafafa",
+            backgroundColor: "rgb(29, 36, 48)",
+            color: "white",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -58,23 +71,42 @@ async function routes(fastify: FastifyInstance) {
             padding: "1.25rem",
           }}
         >
-          <h1
-            style={{ fontSize: "3.5rem", fontWeight: "500", marginBottom: "0" }}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: "1rem",
+            }}
           >
-            Snapcaster
-          </h1>
+            <img
+              src={`${BASE_URL}/api/images/logo.svg`}
+              width={100}
+              height={120}
+            />
+            <h1
+              style={{
+                fontFamily: "Poppins",
+                fontSize: "3.5rem",
+                marginTop: "1.75rem",
+              }}
+            >
+              Snapcaster
+            </h1>
+          </div>
           <p
             style={{
-              width: "60%",
+              fontSize: "1.5rem",
               textAlign: "center",
               marginTop: "0",
               marginBottom: "2rem",
             }}
           >
-            Based on-chain voting for Farcaster. Make decisions as a group in 4
-            clicks
+            Make decisions as a group in 4 clicks
           </p>
-          <div style={{ width: "100%", textAlign: "left" }}>
+          <div
+            style={{ fontSize: "1.25rem", width: "100%", textAlign: "left" }}
+          >
             from chaindrop with ❤️
           </div>
         </div>,
@@ -85,6 +117,8 @@ async function routes(fastify: FastifyInstance) {
 
       if (process.env.NODE_ENV === "production") {
         reply.header("Cache-Control", "public, max-age=10");
+      } else {
+        reply.header("Cache-Control", "public, max-age=0");
       }
       reply.header("Content-Type", "image/png");
 
