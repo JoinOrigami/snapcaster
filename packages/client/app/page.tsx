@@ -11,8 +11,11 @@ const BASE_URL = process.env.BASE_URL;
 const frameMetadata = getFrameMetadata({
   buttons: [
     { label: "Create a proposal" },
-    { label: "Create on the web" },
-    { label: "About" },
+    {
+      label: "Create on the web",
+      action: "link",
+      target: `${BASE_URL}/proposals/new`,
+    },
   ],
   state: {},
   image: `${BASE_URL}/api/images/start`,
@@ -22,6 +25,13 @@ const frameMetadata = getFrameMetadata({
 export const metadata: Metadata = {
   title: "Snapcaster",
   description: "Snapcaster",
+  openGraph: {
+    siteName: "Snapcaster",
+    title: "Snapcaster: get voting",
+    type: "website",
+    description: "Based on-chain voting for Farcaster.",
+    images: [`${BASE_URL}/api/images/start`],
+  },
   other: {
     ...frameMetadata,
   },
