@@ -5,6 +5,21 @@ import * as S from "@snapcaster/server/schemas/auth";
 import type { FastifyInstance } from "@snapcaster/server/types/fastify";
 
 async function routes(fastify: FastifyInstance) {
+  fastify.get("/auth", {
+    schema: {
+      response: {
+        200: S.AuthResponse,
+      },
+    },
+    handler: async (request) => {
+      fastify.assert(request.fid, 401);
+
+      return { 
+        fid: request.fid,
+      };
+    }
+  });
+
   fastify.post("/auth/nonce", {
     handler: async (request) => {
       const nonce = (
@@ -37,6 +52,7 @@ async function routes(fastify: FastifyInstance) {
 
       request.session.set("nonce", null);
       request.session.set("fid", fid.toString());
+      console.log("fid", fid.toString());
 
       return { success: true };
     }

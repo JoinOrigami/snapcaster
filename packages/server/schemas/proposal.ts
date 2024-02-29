@@ -6,26 +6,19 @@ export const ProposalRequestParams = StrictObject({
   id: Type.Number(),
 });
 
-export type TUpdateProposalPayload = Static<typeof UpdateProposalPayload>;
-export const UpdateProposalPayload = Type.Partial(
-  StrictObject({
-    title: Type.String({ minLength: 1, maxLength: 100 }),
-    summary: Type.String({ minLength: 1, maxLength: 1000 }),
-    description: Type.String({ minLength: 1, maxLength: 10000 }),
-    start_timestamp: Type.String({ format: "date-time" }),
-    end_timestamp: Type.String({ format: "date-time" }),
-    eligibility_threshold: Type.String({ format: "uint256" }),
-    eligibility_contract: Hex({ format: "eth-address" }),
-  })
-);
-
-export type TCreateProposalPaylod = Static<typeof CreateProposalPayload>;
-export const CreateProposalPayload = Type.Intersect([
-  StrictObject({
-    eligibility_type: Type.String({ enum: ["token_weight", "follows"] }),
+export type TCreateProposalPayload = Static<typeof CreateProposalPayload>;
+export const CreateProposalPayload = StrictObject({
+  title: Type.String({ minLength: 1, maxLength: 100 }),
+  eligibility_type: Type.String({
+    enum: ["contract", "follows", "mutuals", "active"]
   }),
-  UpdateProposalPayload,
-]);
+  start_timestamp: Type.String({ format: "date-time" }),
+  end_timestamp: Type.String({ format: "date-time" }),
+  summary: Type.Optional(Nullable(Type.String({ minLength: 1, maxLength: 1000 }))),
+  description: Type.Optional(Nullable(Type.String({ minLength: 1, maxLength: 10000 }))),
+  eligibility_threshold: Type.Optional(Nullable(Type.String({ format: "uint256" }))),
+  eligibility_contract: Type.Optional(Nullable(Hex({ format: "eth-address" }))),
+});
 
 export type TProposalResponse = Static<typeof ProposalResponse>;
 export const ProposalResponse = Type.Object({

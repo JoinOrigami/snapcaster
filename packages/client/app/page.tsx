@@ -1,13 +1,9 @@
 import { getFrameMetadata } from "@coinbase/onchainkit";
-import SignIn from "@components/signin";
 import { LuVote } from "react-icons/lu";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { LuCamera } from "react-icons/lu";
 import { TbMoneybag } from "react-icons/tb";
 import { Metadata } from "next";
-import LogoTypeDark from "@images/logo-type.svg";
-import LogoType from "@images/logo-type-light.svg";
-import Image from "next/image";
 
 const BASE_URL = process.env.BASE_URL;
 
@@ -17,12 +13,12 @@ const frameMetadata = getFrameMetadata({
     {
       label: "Create on the web",
       action: "link",
-      target: `${BASE_URL}/proposals/new`,
+      target: `${BASE_URL}/frame/proposals/new`,
     },
   ],
   state: {},
   image: `${BASE_URL}/api/images/start`,
-  postUrl: `${BASE_URL}/proposals/new`,
+  postUrl: `${BASE_URL}/frame/proposals/new`,
 });
 
 export const metadata: Metadata = {
@@ -42,22 +38,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="mx-auto max-w-6xl py-6 px-gutter">
-      <div className="flex items-center justify-between">
-        <Image
-          src={LogoTypeDark}
-          alt="Snapcaster"
-          height={50}
-          className="hidden dark:block"
-        />
-        <Image
-          src={LogoType}
-          alt="Snapcaster"
-          height={50}
-          className="dark:hidden"
-        />
-        <SignIn />
-      </div>
+    <div className="container">
       <div className="flex flex-col sm:items-center pt-[10vh] pb-[14vh] below-sm:py-[6vh]">
         <div className="bg-gradient-to-r from-primary to-secondary bg-clip-text">
           <h1 className="sm:text-center leading-tight text-5xl sm:text-6xl lg:text-7xl  inline text-transparent bg-clip-text">

@@ -8,6 +8,7 @@
     --color-base-200: 250 250 250;
     --color-base-300: 242 244 247;
     --color-content: 0 0 52;
+    --color-content-invert: 250 250 250;
     --color-primary: 245 173 255;
     --color-secondary: 124 101 193;
   }
@@ -17,6 +18,7 @@
     --color-base-200: 45 53 68;
     --color-base-300: 74 84 100;
     --color-content: 250 250 250;
+    --color-content-invert: 0 0 52;
     --color-primary: 0 255 251;
     --color-secondary: 124 101 193;
   }
@@ -114,6 +116,13 @@
 }
 
 @layer components {
+  .container {
+    @apply mx-auto max-w-6xl px-gutter;
+  }
+  .container-sm {
+    @apply mx-auto max-w-4xl px-gutter;
+  }
+
   .link {
     @apply text-primary underline hover:opacity-80 cursor-pointer font-medium;
   }
@@ -133,7 +142,7 @@
   }
 
   .btn {
-    @apply inline-flex items-center justify-center rounded-md flex-shrink-0 font-medium gap-2;
+    @apply inline-flex items-center justify-center rounded-full flex-shrink-0 font-medium gap-2;
     @apply select-none cursor-pointer;
     @apply transition-transform active:scale-90;
     @apply disabled:text-gray-300 disabled:dark:text-gray-300;
@@ -149,11 +158,75 @@
   }
 
   .btn-primary {
-    @apply bg-primary text-content/80;
-    @apply hover:bg-primary/90;
+    @apply bg-content text-content-invert;
+    @apply hover:bg-content/70;
+  }
+
+  .btn-outline.btn-primary {
+    @apply border-2 bg-transparent text-primary border-primary;
+    @apply hover:bg-primary/10;
+  }
+
+  .btn[disabled] {
+    @apply opacity-50 border-gray-600 dark:border-gray-100 text-gray-300;
+  }
+  .btn[disabled]:not(.btn-outline) {
+    @apply bg-gray-600 dark:bg-gray-100;
   }
 
   .signin-button button {
-    @apply btn btn-md below-sm:fixed below-sm:top-7 below-sm:right-5;
+    @apply btn btn-md rounded-md below-sm:fixed below-sm:top-7 below-sm:right-5;
+  }
+
+  .input,
+  .textarea {
+    @apply outline-none bg-base-200 border-2 rounded-lg text-content placeholder-gray-200 leading-5 px-4 text-sm;
+    @apply disabled:bg-gray-600 disabled:border disabled:border-gray-600 disabled:text-gray-300;
+    @apply dark:disabled:bg-gray-100 dark:disabled:border-gray-100 dark:disabled:text-gray-200;
+    @apply border-gray-500 focus:border-primary hover:border-gray-300;
+    @apply dark:border-gray-100 dark:focus:border-primary dark:hover:border-gray-200;
+    @apply disabled:hover:border-gray-600 dark:disabled:hover:border-gray-100;
+
+    /* Safari on iOS will auto zoom in to the page when an input is focused and the input's text size is <16px */
+    @apply below-sm:text-base;
+  }
+
+  .input {
+    @apply h-10 below-sm:leading-[17.6px];
+  }
+
+  .textarea {
+    @apply py-2;
+  }
+
+  .input.has-error,
+  .input[invalid],
+  .textarea.has-error,
+  .textarea[invalid] {
+    @apply border-red-300;
+  }
+
+  .radio {
+    @apply appearance-none rounded-full hover:opacity-50;
+  }
+
+  .radio:not(:checked) {
+    @apply border-[2px] p-[8px];
+    @apply border-gray-300 bg-gray-700;
+    @apply dark:border-base-300 dark:bg-base-200;
+  }
+
+  .radio:checked {
+    @apply bg-transparent border-primary border-[5px] p-[5px];
+  }
+
+  .form-error {
+    @apply text-red-300 text-sm mt-1;
+  }
+  .label {
+    @apply flex flex-col gap-1.5;
+  }
+  .select {
+    margin: 2.5rem;
   }
 }
