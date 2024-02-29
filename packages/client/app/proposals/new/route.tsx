@@ -17,8 +17,9 @@ export async function POST(req: NextRequest): Promise<Response> {
   console.log({ isValid, message });
   return new NextResponse(
     getFrameHtmlResponse({
+      ogDescription: "Snapcaster",
+      ogTitle: "Snapcaster",
       buttons: [{ label: "tacos" }],
-      state: {},
       image: {
         aspectRatio: "1.91:1",
         src: `${BASE_URL}/api/images/start`,
