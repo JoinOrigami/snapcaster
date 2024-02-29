@@ -49,7 +49,7 @@ export default function Page() {
         <div className="flex col-span-1 items-start gap-5">
           <LuVote className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2 text-primary shrink-0" />
           <div>
-            <h3>Inclusive management</h3>
+            <h3>Inclusive engagement</h3>
             <p className="mt-2">
               Dive in, whether you're swinging big bags or making waves in the
               social scene. Every voice fuels our collective journey.
