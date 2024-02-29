@@ -2,6 +2,9 @@ import * as S from "@schemas/proposal";
 import type { FastifyInstance } from "@snapcaster/server/types/fastify";
 
 import { createProposal } from "@db/proposal";
+import { createProposalAttestation } from "@lib/eas";
+import { CompletedProposal } from "@db/index";
+import { Insertable } from "kysely";
 
 const serializeDate = (date: Date | null) => date && date.toISOString();
 
@@ -16,9 +19,20 @@ async function routes(fastify: FastifyInstance) {
     handler: async (request) => {
       fastify.assert(request.fid, 401);
 
-      console.log("request.body", request.body);
+      const data = request.body;
+
+      fastify.assert(data.eligibility_type !== "contract" || (
+        data.eligibility_contract &&
+        data.eligibility_threshold !== null
+      ));
+
+      const uid = await createProposalAttestation(
+        data as Insertable<CompletedProposal>
+      );
+
       const proposal = await createProposal({
         proposer_fid: request.fid,
+        uid,
         ...request.body,
       });
 

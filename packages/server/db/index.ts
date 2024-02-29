@@ -7,16 +7,14 @@ import { Proposal as _BaseProposal } from "./types";
 export type * from "./types";
 
 export type BaseProposal = _BaseProposal;
-export type DraftProposal = Omit<BaseProposal, "uid"> & { uid: never };
-export type Proposal = O.NonNullable<DraftProposal,
-  | "uid"
+export type DraftProposal = Omit<BaseProposal, "uid"> & { uid: null };
+export type CompletedProposal = O.NonNullable<Proposal,
   | "title"
   | "start_timestamp"
   | "end_timestamp"
   | "eligibility_type"
 >;
-
-export type CompletedProposal = O.Nullable<Proposal, "uid">;
+export type Proposal = O.NonNullable<DraftProposal, "uid">;
 
 const dialect = new PostgresDialect({
   pool: new Pool({
