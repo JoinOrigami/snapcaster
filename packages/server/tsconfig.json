@@ -24,6 +24,7 @@
       "@db/*": ["./db/*"],
       "@type/*": ["./types/*"],
       "@schemas/*": ["./schemas/*"],
+      "@lib/*": ["./lib/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],

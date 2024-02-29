@@ -5,7 +5,7 @@ import { getUnixTime } from "date-fns";
 import { CompletedProposal, Vote } from "@snapcaster/server/db";
 import { publicClient, walletClient } from "./rpc";
 import { EAS } from "./abi";
-import { Selectable } from "kysely";
+import { Insertable, Selectable } from "kysely";
 
 const EAS_ADDRESS = "0x4200000000000000000000000000000000000021";
 
@@ -30,7 +30,7 @@ const getEASContract = () => {
   })
 }
 
-export async function createProposalAttestation(proposal: Selectable<CompletedProposal>) {
+export async function createProposalAttestation(proposal: Insertable<CompletedProposal>) {
   const eas = getEASContract();
   const args = [
     proposal.title,
