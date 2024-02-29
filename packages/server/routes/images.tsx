@@ -98,11 +98,11 @@ async function routes(fastify: FastifyInstance) {
             style={{
               fontSize: "1.5rem",
               textAlign: "center",
-              marginTop: "0",
-              marginBottom: "2rem",
+              margin: "0 10rem 2rem",
             }}
           >
-            Make decisions as a group in 4 clicks
+            Based on-chain voting for Farcaster. Make decisions as a group in 4
+            clicks.
           </p>
           <div
             style={{ fontSize: "1.25rem", width: "100%", textAlign: "left" }}
