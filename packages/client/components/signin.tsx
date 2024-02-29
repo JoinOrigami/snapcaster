@@ -38,10 +38,12 @@ function SignIn() {
 
   return (
     <AuthKitProvider config={config}>
-      <SignInButton
-        nonce={nonce}
-        onSuccess={handleSuccess}
-      />
+      <div className="signin-button">
+        <SignInButton
+          nonce={nonce}
+          onSuccess={handleSuccess}
+        />
+      </div>
     </AuthKitProvider>
   );
 }

@@ -129,4 +129,29 @@
     padding-left: var(--gutter-l);
     padding-right: var(--gutter-r);
   }
+
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md flex-shrink-0 font-medium gap-2;
+    @apply select-none cursor-pointer;
+    @apply transition-transform active:scale-90;
+    @apply disabled:text-gray-300 disabled:dark:text-gray-300;
+    @apply disabled:cursor-default disabled:pointer-events-none;
+  }
+
+  .btn-md {
+    @apply px-4 text-sm h-10;
+  }
+
+  .btn-sm {
+    @apply px-3 text-sm h-6;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-content/80;
+    @apply hover:bg-primary/90;
+  }
+
+  .signin-button button {
+    @apply btn btn-md;
+  }
 }
