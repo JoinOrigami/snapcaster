@@ -5,6 +5,9 @@ import { IoChatbubblesOutline } from "react-icons/io5";
 import { LuCamera } from "react-icons/lu";
 import { TbMoneybag } from "react-icons/tb";
 import { Metadata } from "next";
+import LogoTypeDark from "@images/logo-type.svg";
+import LogoType from "@images/logo-type-light.svg";
+import Image from "next/image";
 
 const BASE_URL = process.env.BASE_URL;
 
@@ -41,12 +44,24 @@ export default function Page() {
   return (
     <div className="mx-auto max-w-6xl py-6 px-gutter">
       <div className="flex items-center justify-between">
-        <h1>Snapcaster</h1>
+        <Image
+          src={LogoTypeDark}
+          alt="Snapcaster"
+          height={50}
+          className="hidden dark:block"
+        />
+        <Image
+          src={LogoType}
+          alt="Snapcaster"
+          height={50}
+          className="dark:hidden"
+        />
         <SignIn />
       </div>
-
-      <div className="sm:text-center mx-auto max-w-xl my-[10vh]">
-        <h1 className="sm:text-center">Make better decisions together</h1>
+      <div className="sm:text-center mx-auto max-w-xl my-[10vh] below-sm:my-[6vh]">
+        <h1 className="sm:text-center below-sm:text-xl">
+          Based on-chain voting for farcaster
+        </h1>
         <p className="mt-6">
           The revolution is verifiable and inclusive. Ignite change and empower
           every voice in your community, from the Farcaster social graph to
