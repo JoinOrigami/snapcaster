@@ -10,7 +10,6 @@ import '@farcaster/auth-kit/styles.css';
 import toast from "react-hot-toast";
 
 import api from "@snapcaster/client/api";
-
 const config = {
   domain: "localhost:3000",
   siweUri: "http://localhost:3000",

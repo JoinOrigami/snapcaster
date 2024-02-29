@@ -1,7 +1,7 @@
 import * as S from "@schemas/proposal";
 import type { FastifyInstance } from "@snapcaster/server/types/fastify";
 
-import { createProposal, findProposalById, updateProposal } from "@db/proposal";
+import { createProposal } from "@db/proposal";
 
 const serializeDate = (date: Date | null) => date && date.toISOString();
 
@@ -10,12 +10,13 @@ async function routes(fastify: FastifyInstance) {
     schema: {
       body: S.CreateProposalPayload,
       response: {
-        201: S.ProposalResponse,
+        200: S.ProposalResponse,
       },
     },
     handler: async (request) => {
       fastify.assert(request.fid, 401);
 
+      console.log("request.body", request.body);
       const proposal = await createProposal({
         proposer_fid: request.fid,
         ...request.body,
@@ -23,33 +24,6 @@ async function routes(fastify: FastifyInstance) {
 
       return {
         ...proposal,
-        start_timestamp: serializeDate(proposal.start_timestamp),
-        end_timestamp: serializeDate(proposal.end_timestamp),
-      };
-    }
-  });
-
-  fastify.patch("/proposals/:id", {
-    schema: {
-      body: S.UpdateProposalPayload,
-      params: S.ProposalRequestParams,
-      response: {
-        201: S.ProposalResponse,
-      },
-    },
-    handler: async (request) => {
-      fastify.assert(request.fid, 401);
-
-      const proposal = await findProposalById(request.params.id);
-      fastify.assert(proposal && proposal.proposer_fid === request.fid, 403);
-
-      const updated = await updateProposal(
-        request.params.id,
-        request.body
-      );
-
-      return {
-        ...updated,
         start_timestamp: serializeDate(proposal.start_timestamp),
         end_timestamp: serializeDate(proposal.end_timestamp),
       };

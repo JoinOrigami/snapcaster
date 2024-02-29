@@ -31,7 +31,10 @@ module.exports = {
           200: withAlphaChannel("--color-base-200"),
           300: withAlphaChannel("--color-base-300"),
         },
-        content: withAlphaChannel("--color-content"),
+        content: {
+          DEFAULT: withAlphaChannel("--color-content"),
+          invert: withAlphaChannel("--color-content-invert"),
+        },
 
         primary: {
           DEFAULT: withAlphaChannel("--color-primary"),
@@ -58,6 +61,9 @@ module.exports = {
       sm: "700px",
       md: "1060px",
       lg: "1172px",
+    },
+    corePlugins: {
+      container: false,
     },
   },
   plugins: [

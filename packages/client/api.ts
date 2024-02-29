@@ -24,7 +24,7 @@ export default async function api<T = unknown, P = Payload>(
 
   const res = await fetch(url, opts);
   if (!res.ok) {
-    throw new Error("An error occurred");
+    throw new Error(`API call failed ${url}: ${await res.text()}`);
   }
   return await res.json();
 }

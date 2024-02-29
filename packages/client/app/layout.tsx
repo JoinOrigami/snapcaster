@@ -1,4 +1,7 @@
 import { Outfit } from "next/font/google";
+import { Toaster } from "react-hot-toast";
+
+import Navbar from "@components/navbar";
 
 import "../base.css";
 
@@ -15,7 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={outfit.className}>
-      <body>{children}</body>
+      <body className="pb-6">
+        <Toaster />
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }
