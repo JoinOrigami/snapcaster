@@ -58,11 +58,13 @@ export default function Page() {
         />
         <SignIn />
       </div>
-      <div className="sm:text-center mx-auto max-w-xl my-[10vh] below-sm:my-[6vh]">
-        <h1 className="sm:text-center below-sm:text-xl">
-          Based on-chain voting for farcaster
-        </h1>
-        <p className="mt-6">
+      <div className="flex flex-col sm:items-center pt-[10vh] pb-[14vh] below-sm:py-[6vh]">
+        <div className="bg-gradient-to-r from-primary to-secondary bg-clip-text">
+          <h1 className="sm:text-center leading-tight text-5xl sm:text-6xl lg:text-7xl  inline text-transparent bg-clip-text">
+            Based on-chain voting for farcaster
+          </h1>
+        </div>
+        <p className="mt-6 max-w-3xl sm:text-center">
           The revolution is verifiable and inclusive. Ignite change and empower
           every voice in your community, from the Farcaster social graph to
           on-chain assets. Snapcaster equips you for secure, impactful
@@ -73,7 +75,7 @@ export default function Page() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-12 sm:px-8">
         <div className="flex col-span-1 items-start gap-5">
-          <LuVote className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2 text-primary shrink-0" />
+          <LuVote className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2  shrink-0" />
           <div>
             <h3>Inclusive engagement</h3>
             <p className="mt-2">
@@ -84,7 +86,7 @@ export default function Page() {
         </div>
 
         <div className="flex col-span-1 items-start gap-5">
-          <LuCamera className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2 text-primary shrink-0" />
+          <LuCamera className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2  shrink-0" />
           <div>
             <h3>Snapshots</h3>
             <p className="mt-2">
@@ -95,7 +97,7 @@ export default function Page() {
         </div>
 
         <div className="flex col-span-1 items-start gap-5">
-          <TbMoneybag className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2 text-primary shrink-0" />
+          <TbMoneybag className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2  shrink-0" />
           <div>
             <h3>Power in participation</h3>
             <p className="mt-2">
@@ -106,7 +108,7 @@ export default function Page() {
         </div>
 
         <div className="flex col-span-1 items-start gap-5">
-          <IoChatbubblesOutline className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2 text-primary shrink-0" />
+          <IoChatbubblesOutline className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2  shrink-0" />
           <div>
             <h3>Vote where you vibe</h3>
             <p className="mt-2">

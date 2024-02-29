@@ -9,6 +9,7 @@
     --color-base-300: 242 244 247;
     --color-content: 0 0 52;
     --color-primary: 245 173 255;
+    --color-secondary: 124 101 193;
   }
 
   .dark-theme {
@@ -17,6 +18,7 @@
     --color-base-300: 74 84 100;
     --color-content: 250 250 250;
     --color-primary: 0 255 251;
+    --color-secondary: 124 101 193;
   }
 
   @media (prefers-color-scheme: light) {
@@ -152,6 +154,6 @@
   }
 
   .signin-button button {
-    @apply btn btn-md;
+    @apply btn btn-md below-sm:fixed below-sm:top-7 below-sm:right-5;
   }
 }

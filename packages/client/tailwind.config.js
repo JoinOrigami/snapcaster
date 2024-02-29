@@ -15,6 +15,9 @@ module.exports = {
         "2xl": 24,
         "3xl": 28,
         "4xl": 32,
+        "5xl": 36,
+        "6xl": 40,
+        "7xl": 48,
       },
       fontWeight: {
         normal: 400,
@@ -32,6 +35,9 @@ module.exports = {
 
         primary: {
           DEFAULT: withAlphaChannel("--color-primary"),
+        },
+        secondary: {
+          DEFAULT: withAlphaChannel("--color-secondary"),
         },
 
         gray: {
