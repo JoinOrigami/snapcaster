@@ -75,7 +75,7 @@ export default function Page() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-12 sm:px-8">
         <div className="flex col-span-1 items-start gap-5">
-          <LuVote className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2  shrink-0" />
+          <LuVote className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2 shrink-0 stroke-primary" />
           <div>
             <h3>Inclusive engagement</h3>
             <p className="mt-2">
@@ -86,7 +86,7 @@ export default function Page() {
         </div>
 
         <div className="flex col-span-1 items-start gap-5">
-          <LuCamera className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2  shrink-0" />
+          <LuCamera className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2  shrink-0 stroke-primary" />
           <div>
             <h3>Snapshots</h3>
             <p className="mt-2">
@@ -97,7 +97,7 @@ export default function Page() {
         </div>
 
         <div className="flex col-span-1 items-start gap-5">
-          <TbMoneybag className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2  shrink-0" />
+          <TbMoneybag className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2  shrink-0 stroke-primary" />
           <div>
             <h3>Power in participation</h3>
             <p className="mt-2">
@@ -108,7 +108,7 @@ export default function Page() {
         </div>
 
         <div className="flex col-span-1 items-start gap-5">
-          <IoChatbubblesOutline className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2  shrink-0" />
+          <IoChatbubblesOutline className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2  shrink-0 stroke-primary" />
           <div>
             <h3>Vote where you vibe</h3>
             <p className="mt-2">
