@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { add } from "date-fns";
 import toast from "react-hot-toast";
+import { GetServerSidePropsContext } from "next";
 
 import type * as S from "@snapcaster/server/schemas/proposal";
 import api from "@snapcaster/client/api";
@@ -9,7 +10,6 @@ import { Hex } from "viem";
 import { useRouter } from "next/navigation";
 import Layout from "@components/layouts/main";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { NextPageContext } from "next";
 
 type FormValues = {
   title: string;
@@ -22,12 +22,12 @@ type FormValues = {
 };
 
 // TODO: refactor and move auth logic into a common place
-export async function getServerSideProps(ctx: NextPageContext) {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
     queryKey: ["auth", "data"],
     queryFn: () => api("GET", "/auth", null, {
-      Cookie: ctx.req.headers.cookie
+      Cookie: ctx.req.headers.cookie ?? ""
     })
   });
 

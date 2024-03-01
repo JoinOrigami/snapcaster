@@ -1,10 +1,10 @@
 import { Insertable, Selectable, Updateable } from "kysely";
 
-import { db, BaseProposal } from "./index";
+import { db, Proposal } from "./index";
 
 export const createProposal = async (
-  proposal: Insertable<BaseProposal>
-): Promise<Selectable<BaseProposal>> => {
+  proposal: Insertable<Proposal>
+): Promise<Selectable<Proposal>> => {
   return await db
     .insertInto("proposal")
     .values(proposal)
@@ -14,8 +14,8 @@ export const createProposal = async (
 
 export const updateProposal = async (
   id: number,
-  proposal: Updateable<BaseProposal>
-): Promise<Selectable<BaseProposal>> => {
+  proposal: Updateable<Proposal>
+): Promise<Selectable<Proposal>> => {
   return await db
     .updateTable("proposal")
     .set(proposal)

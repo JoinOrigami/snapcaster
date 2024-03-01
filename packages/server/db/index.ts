@@ -1,19 +1,8 @@
 import { Pool } from "pg";
 import { Kysely, PostgresDialect } from "kysely";
-import type { O } from "ts-toolbelt";
 
 import { DB } from "./types";
-import { Proposal as _BaseProposal } from "./types";
 export type * from "./types";
-
-export type BaseProposal = _BaseProposal;
-export type CompletedProposal = O.NonNullable<BaseProposal,
-  | "title"
-  | "start_timestamp"
-  | "end_timestamp"
-  | "eligibility_type"
->;
-export type Proposal = O.NonNullable<CompletedProposal, "tx_hash">;
 
 const dialect = new PostgresDialect({
   pool: new Pool({

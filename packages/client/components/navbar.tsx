@@ -30,7 +30,13 @@ function Navbar() {
       {!auth && <SignIn />}
       {profile && (
         <div className="flex items-center gap-4">
-          <img src={profile.pfp_url} alt={profile.username} className="rounded-full w-10 h-10"/>
+          {profile.pfp_url && (
+            <img
+              src={profile.pfp_url}
+              alt={profile.username}
+              className="rounded-full w-10 h-10"
+            />
+          )}
           <div>
             <p className="text-gray-200 text-xs">logged in as</p>
             <h4 className="mb-1">{profile.username}</h4>

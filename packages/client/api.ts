@@ -17,12 +17,10 @@ export default async function api<T = unknown, P = Payload>(
   }
 
   let url = `${baseUrl}${path}`;
-  const opts: RequestInit = {
-    method,
-    headers: {
-      ...headers,
-      Accept: "application/json",
-    },
+  const opts: RequestInit = { method };
+  opts.headers = {
+    ...headers,
+    Accept: "application/json",
   };
 
   if (method === "GET" && payload) {

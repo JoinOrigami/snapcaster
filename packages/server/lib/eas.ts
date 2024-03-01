@@ -2,7 +2,7 @@ import { Hex, encodeAbiParameters, getContract, keccak256, pad, parseAbiParamete
 import { privateKeyToAccount } from "viem/accounts";
 import { getUnixTime } from "date-fns";
 
-import { CompletedProposal, Vote } from "@snapcaster/server/db";
+import { Proposal, Vote } from "@snapcaster/server/db";
 import { publicClient, walletClient } from "./rpc";
 import { EAS } from "./abi";
 import { Insertable } from "kysely";
@@ -30,7 +30,7 @@ const getEASContract = () => {
   })
 }
 
-export async function createProposalAttestation(proposal: Omit<Insertable<CompletedProposal>, "tx_hash">) {
+export async function createProposalAttestation(proposal: Omit<Insertable<Proposal>, "tx_hash">) {
   const eas = getEASContract();
   const args = [
     proposal.title,
