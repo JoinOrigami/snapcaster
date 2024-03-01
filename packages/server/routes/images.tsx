@@ -105,7 +105,7 @@ const template = (title: string, node: React.ReactNode) => {
         <div
           style={{
             display: "flex",
-            fontSize: "1.5rem",
+            fontSize: "1.75rem",
             marginLeft: "3rem",
             marginRight: "3rem",
           }}
@@ -170,9 +170,9 @@ async function routes(fastify: FastifyInstance) {
           </div>
           <p
             style={{
-              fontSize: "1.5rem",
+              fontSize: "2rem",
               textAlign: "center",
-              margin: "0 10rem 2rem",
+              margin: "0 6rem 2rem",
             }}
           >
             Based on-chain voting for Farcaster. Make decisions as a group in 4
@@ -283,10 +283,9 @@ async function routes(fastify: FastifyInstance) {
         template(
           "What are you voting on?",
           <p>
-            Name Your Vote (e.g., 'Token Burn', 'Incentive Share') - max 30
-            chars. To add a summary, description or change the duration,
-            continue on the web. Otherwise click Create Proposal to make your
-            vote live!
+            Title your vote (i.e. 'Token Burn') - 30 chars max. For details or
+            edits, continue on the web. Ready? Click 'Create Proposal' to launch
+            your vote!
           </p>
         ),
         imageConfig
