@@ -6,5 +6,5 @@ import api from "../api";
 export const useAuth = () =>
   useQuery({
     queryKey: ["auth", "data"],
-    queryFn: () => api<S.TAuthResponse>("GET", `/accounts/whoami`),
+    queryFn: () => api<S.TAuthResponse>("GET", `/auth`),
   });

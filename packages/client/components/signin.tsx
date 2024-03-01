@@ -8,6 +8,8 @@ import '@farcaster/auth-kit/styles.css';
 import toast from "react-hot-toast";
 
 import api from "@snapcaster/client/api";
+import { useQueryClient } from "@tanstack/react-query";
+
 const config = {
   domain: "localhost:3000",
   siweUri: "http://localhost:3000",
@@ -15,8 +17,9 @@ const config = {
   relay: 'https://relay.farcaster.xyz',
 };
 
-function SignIn() {
+function SignIn({ onSuccess }: { onSuccess?: () => void }) {
   const [nonce, setNonce] = useState("");
+  const client = useQueryClient();
 
   const fetchNonce = () => api<{ nonce: string }>("POST", "/auth/nonce")
     .then((data) => setNonce(data.nonce));
@@ -27,10 +30,11 @@ function SignIn() {
 
   const handleSuccess = (data: UseSignInData) => {
     api("POST", "/auth/verify", data)
-      .then(console.log)
+      .then(() => {
+        client.invalidateQueries({ queryKey: ["auth", "data"] });
+        onSuccess?.();
+      })
       .catch(() => toast.error("Account verification failed"));
-
-    fetchNonce();
   };
 
   return (

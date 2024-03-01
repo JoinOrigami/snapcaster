@@ -52,7 +52,6 @@ async function routes(fastify: FastifyInstance) {
 
       request.session.set("nonce", null);
       request.session.set("fid", fid.toString());
-      console.log("fid", fid.toString());
 
       return { success: true };
     }

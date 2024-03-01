@@ -26,13 +26,15 @@ const AppWrapper = (props: AppProps) => {
       })
   );
 
+  const getLayout = (
+    Component as unknown as { getLayout: Function }
+  ).getLayout || ((page: any) => page);
+
   return (
     <QueryClientProvider client={queryClient}>
       <HydrationBoundary state={queries}>
         <Toaster />
-        {(Component as unknown as { getLayout: Function }).getLayout(
-          <Component {...pageProps} />
-        )}
+        {getLayout(<Component {...pageProps} />)}
       </HydrationBoundary>
     </QueryClientProvider>
   );
