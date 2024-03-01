@@ -1,4 +1,4 @@
-import { Insertable, Selectable } from "kysely";
+import { Insertable, Selectable, Updateable } from "kysely";
 
 import { db, Vote } from "./index";
 
@@ -20,6 +20,18 @@ export const createVote = async (
   return await db
     .insertInto("vote")
     .values(vote)
+    .returningAll()
+    .executeTakeFirstOrThrow();
+};
+
+export const updateVote = async (
+  id: number,
+  vote: Updateable<Vote>
+): Promise<Selectable<Vote>> => {
+  return await db
+    .updateTable("vote")
+    .set(vote)
+    .where("id", "=", id)
     .returningAll()
     .executeTakeFirstOrThrow();
 };

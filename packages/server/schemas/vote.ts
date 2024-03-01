@@ -1,6 +1,6 @@
 import { Static, Type } from "@sinclair/typebox";
 
-import { StrictObject } from "./utils";
+import { Nullable, StrictObject } from "./utils";
 
 export type TCreateVotePayload = Static<typeof CreateVotePayload>;
 export const CreateVotePayload = StrictObject({
@@ -11,5 +11,6 @@ export const CreateVotePayload = StrictObject({
 export type TVoteResponse = Static<typeof VoteResponse>;
 export const VoteResponse = Type.Object({
   id: Type.Number(),
-  uid: Type.String(),
+  tx_hash: Type.String(),
+  uid: Nullable(Type.String()),
 });

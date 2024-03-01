@@ -3,9 +3,9 @@ import { Hex } from "viem";
 import { Selectable } from "kysely";
 
 import { isActive } from "@snapcaster/lib/proposal";
-import { createVote, findVoteByProposalIdAndFid } from "@db/vote";
+import { createVote, findVoteByProposalIdAndFid, updateVote } from "@db/vote";
 import * as S from "@schemas/vote";
-import { createVoteAttestation } from "@lib/eas";
+import { createVoteAttestation, waitForUID } from "@lib/eas";
 import { findProposalById } from "@db/proposal";
 import { Proposal } from "@db/index";
 import { getVotingWeight } from "@lib/vote";
@@ -41,14 +41,18 @@ async function routes(fastify: FastifyInstance) {
         signature: "0x0", // TODO
       };
 
-      const uid = await createVoteAttestation({
+      const tx_hash = await createVoteAttestation({
         proposal_uid: proposal.uid as Hex,
         ...data,
       });
       const vote = await createVote({
-        uid,
+        tx_hash,
         ...data,
       });
+
+      waitForUID(tx_hash)
+        .then((uid) => updateVote(vote.id, { uid }))
+        .catch(console.error);
 
       return vote;
     }

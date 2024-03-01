@@ -21,6 +21,7 @@ export interface Proposal {
   start_timestamp: Timestamp | null;
   summary: string | null;
   title: string | null;
+  tx_hash: string;
   uid: string | null;
 }
 
@@ -30,7 +31,8 @@ export interface Vote {
   id: Generated<number>;
   proposal_id: number;
   signature: string;
-  uid: string;
+  tx_hash: string;
+  uid: string | null;
   voter_fid: Int8;
   weight: Numeric;
 }
