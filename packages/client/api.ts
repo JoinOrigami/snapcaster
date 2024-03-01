@@ -3,7 +3,7 @@ type Payload = Record<string, unknown>;
 export default async function api<T = unknown, P = Payload>(
   method: RequestInit["method"],
   path: string,
-  payload?: P
+  payload?: P,
 ): Promise<T> {
   let url = `/api${path}`;
   const headers: Record<string, string> = {
