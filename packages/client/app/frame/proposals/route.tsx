@@ -32,7 +32,7 @@ export async function POST(req: NextRequest): Promise<Response> {
       buttons: [
         {
           label: "View and share your proposal",
-          action: "post_redirect",
+          action: "link",
           target: `${BASE_URL}/proposals/1`,
         },
       ],
