@@ -27,13 +27,14 @@ const frameMetadata = {
 };
 
 export async function getServerSideProps(ctx: NextPageContext) {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["auth", "data"],
-    queryFn: () => api("GET", "/auth", null, {
-      Cookie: ctx.req.headers.cookie
-    })
-  })
+    queryFn: () =>
+      api("GET", "/auth", null, {
+        Cookie: ctx.req.headers.cookie,
+      }),
+  });
 
   return {
     props: { queries: dehydrate(queryClient) },
@@ -45,11 +46,17 @@ function Page(props: {}) {
     <>
       <Head>
         <title>Snapcaster</title>
-        <meta name="description" content="Based on-chain voting for Farcaster" />
+        <meta
+          name="description"
+          content="Based on-chain voting for Farcaster"
+        />
         <meta property="og:site_name" content="Snapcaster" />
         <meta property="og:title" content="Snapcaster: get voting" />
         <meta property="og:type" content="website" />
-        <meta property="og:description" content="Based on-chain voting for Farcaster." />
+        <meta
+          property="og:description"
+          content="Based on-chain voting for Farcaster."
+        />
         <meta property="og:image" content={`${BASE_URL}/api/images/start`} />
         <FrameMetadata {...frameMetadata} />
       </Head>
@@ -60,11 +67,10 @@ function Page(props: {}) {
           </h1>
         </div>
         <p className="mt-6 max-w-3xl sm:text-center">
-          The revolution is verifiable and inclusive. Ignite change and empower
-          every voice in your community, from the Farcaster social graph to
-          on-chain assets. Snapcaster equips you for secure, impactful
-          decisions, celebrating your key contributors and building a trusted,
-          collaborative future
+          The revolution is verifiable. Ignite change and empower every voice in
+          your community, from the Farcaster social graph to on-chain assets.
+          Snapcaster equips you for secure, impactful decisions, celebrating
+          your key contributors and building a trusted, collaborative future
         </p>
       </div>
 
@@ -117,8 +123,8 @@ function Page(props: {}) {
   );
 }
 
-Page.getLayout = function getLayout(page: React.ReactNode) {;
+Page.getLayout = function getLayout(page: React.ReactNode) {
   return <Layout>{page}</Layout>;
-}
+};
 
 export default Page;
