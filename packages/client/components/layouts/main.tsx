@@ -2,7 +2,7 @@ import Navbar from "@components/navbar";
 
 function Layout({ children }) {
   return (
-    <div className="container py-8">
+    <div className="py-6">
       <Navbar />
       {children}
     </div>

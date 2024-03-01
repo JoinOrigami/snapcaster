@@ -1,7 +1,7 @@
 import * as S from "@schemas/proposal";
 import type { FastifyInstance } from "@snapcaster/server/types/fastify";
 
-import { createProposal } from "@db/proposal";
+import { createProposal, findProposalById } from "@db/proposal";
 import { createProposalAttestation } from "@lib/eas";
 import { CompletedProposal } from "@db/index";
 import { Insertable } from "kysely";
@@ -35,6 +35,27 @@ async function routes(fastify: FastifyInstance) {
         uid,
         ...request.body,
       });
+
+      return {
+        ...proposal,
+        start_timestamp: serializeDate(proposal.start_timestamp),
+        end_timestamp: serializeDate(proposal.end_timestamp),
+      };
+    }
+  });
+
+  fastify.get("/proposals/:id", {
+    schema: {
+      params: S.ProposalRequestParams,
+      response: {
+        200: S.ProposalResponse,
+      },
+    },
+    handler: async (request) => {
+      const proposal = await findProposalById(request.params.id);
+
+      // make sure the proposal exists and is submitted on-chain
+      fastify.assert(proposal?.uid, 404);
 
       return {
         ...proposal,

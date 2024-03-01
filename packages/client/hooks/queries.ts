@@ -14,3 +14,9 @@ export const useProfile = () =>
     queryKey: ["auth", "profile"],
     queryFn: () => api<S.TAuthProfileResponse>("GET", `/auth/profile`),
   });
+
+export const useProposal = (id: number | string) =>
+  useQuery({
+    queryKey: ["proposals", "deatil", id],
+    queryFn: () => api<S.TProposalResponse>("GET", `/proposals/${id}`),
+  });
