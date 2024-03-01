@@ -53,7 +53,7 @@ function Page(props: {}) {
         <meta property="og:image" content={`${BASE_URL}/api/images/start`} />
         <FrameMetadata {...frameMetadata} />
       </Head>
-      <div className="flex flex-col sm:items-center pt-[10vh] pb-[14vh] below-sm:py-[6vh]">
+      <div className="container flex flex-col sm:items-center pt-[10vh] pb-[14vh] below-sm:py-[6vh]">
         <div className="bg-gradient-to-r from-primary to-secondary bg-clip-text">
           <h1 className="sm:text-center leading-tight text-5xl sm:text-6xl lg:text-7xl  inline text-transparent bg-clip-text">
             Based on-chain voting for farcaster
@@ -68,7 +68,7 @@ function Page(props: {}) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-12 sm:px-8">
+      <div className="container grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-12 sm:px-8">
         <div className="flex col-span-1 items-start gap-5">
           <LuVote className="w-14 h-14 sm:w-18 sm:h-18 mt-1 sm:mt-2 shrink-0 stroke-primary" />
           <div>
