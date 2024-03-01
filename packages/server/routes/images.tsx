@@ -3,9 +3,11 @@ import { Resvg } from "@resvg/resvg-js";
 import satori from "satori";
 import fs from "fs";
 import React from "react";
-import { loadEmoji, getIconCode } from "../lib/twemoji";
 
-import type { FastifyInstance } from "@snapcaster/server/types/fastify";
+import * as S from "@schemas/proposal";
+import type { FastifyInstance } from "@type/fastify";
+import { loadEmoji, getIconCode } from "@lib/twemoji";
+import { findProposalById } from "@db/proposal";
 
 const BASE_URL = process.env.BASE_URL;
 
@@ -103,6 +105,68 @@ async function routes(fastify: FastifyInstance) {
           >
             Based on-chain voting for Farcaster. Make decisions as a group in 4
             clicks.
+          </p>
+          <div
+            style={{ fontSize: "1.25rem", width: "100%", textAlign: "left" }}
+          >
+            from chaindrop with ❤️
+          </div>
+        </div>,
+        imageConfig
+      );
+
+      const png = new Resvg(svg).render().asPng();
+
+      if (process.env.NODE_ENV === "production") {
+        reply.header("Cache-Control", "public, max-age=10");
+      } else {
+        reply.header("Cache-Control", "public, max-age=0");
+      }
+      reply.header("Content-Type", "image/png");
+
+      return reply.send(png);
+    },
+  });
+
+  fastify.get("/images/proposals/:id", {
+    schema: {
+      params: S.ProposalRequestParams,
+    },
+    handler: async (request, reply) => {
+      const proposal = await findProposalById(request.params.id);
+      fastify.assert(proposal, 404, "Proposal not found");
+
+      const svg = await satori(
+        <div
+          style={{
+            backgroundColor: "rgb(29, 36, 48)",
+            color: "white",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            height: "100%",
+            padding: "1.25rem",
+          }}
+        >
+          <h1
+            style={{
+              fontFamily: "Poppins",
+              fontSize: "3.5rem",
+              marginTop: "1.75rem",
+            }}
+          >
+            {proposal.title}
+          </h1>
+          <p
+            style={{
+              fontSize: "1.5rem",
+              textAlign: "center",
+              margin: "0 10rem 2rem",
+            }}
+          >
+            {proposal.summary}
           </p>
           <div
             style={{ fontSize: "1.25rem", width: "100%", textAlign: "left" }}

@@ -11,7 +11,7 @@ function Navbar() {
   const { data: profile } = useProfile();
 
   return (
-    <div className="flex items-center justify-between mb-6 container">
+    <div className="flex items-center justify-between mb-8 container">
       <Link href="/">
         <Image
           src={LogoTypeDark}
