@@ -26,7 +26,8 @@ export async function POST(req: NextRequest): Promise<Response> {
   return NextResponse.redirect(
     new URL(
       `${BASE_URL}/proposals/new?title=${message.input}&eligibilityType=${state.eligibilityType}&discriminator=${state.discriminator}`
-    )
+    ),
+    302
   );
 }
 
