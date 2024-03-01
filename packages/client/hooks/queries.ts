@@ -8,3 +8,9 @@ export const useAuth = () =>
     queryKey: ["auth", "data"],
     queryFn: () => api<S.TAuthResponse>("GET", `/auth`),
   });
+
+export const useProfile = () =>
+  useQuery({
+    queryKey: ["auth", "profile"],
+    queryFn: () => api<S.TAuthProfileResponse>("GET", `/auth/profile`),
+  });
