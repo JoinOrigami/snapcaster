@@ -8,6 +8,7 @@ import { FrameMetadata } from "@coinbase/onchainkit";
 import Head from "next/head";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import api from "../api";
+import { NextPageContext } from "next";
 
 const BASE_URL = process.env.BASE_URL;
 
@@ -25,11 +26,13 @@ const frameMetadata = {
   postUrl: `${BASE_URL}/frame/proposals/new`,
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps(ctx: NextPageContext) {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
     queryKey: ["auth", "data"],
-    queryFn: () => api("GET", "/auth")
+    queryFn: () => api("GET", "/auth", null, {
+      Cookie: ctx.req.headers.cookie
+    })
   })
 
   return {

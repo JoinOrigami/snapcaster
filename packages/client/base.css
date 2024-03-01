@@ -177,6 +177,9 @@
   .signin-button button {
     @apply btn btn-md rounded-md below-sm:fixed below-sm:top-7 below-sm:right-5;
   }
+  .signin-button .fc-authkit-profile-button {
+    @apply hidden;
+  }
 
   .input,
   .textarea {

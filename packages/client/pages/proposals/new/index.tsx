@@ -9,6 +9,7 @@ import { Hex } from "viem";
 import { useRouter } from "next/navigation";
 import Layout from "@components/layouts/main";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
+import { NextPageContext } from "next";
 
 type FormValues = {
   title: string;
@@ -20,12 +21,24 @@ type FormValues = {
   eligibility_threshold: string;
 };
 
-export async function getServerSideProps() {
+// TODO: refactor and move auth logic into a common place
+export async function getServerSideProps(ctx: NextPageContext) {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
     queryKey: ["auth", "data"],
-    queryFn: () => api("GET", "/auth")
-  })
+    queryFn: () => api("GET", "/auth", null, {
+      Cookie: ctx.req.headers.cookie
+    })
+  });
+
+  if(!queryClient.getQueryData(["auth", "data"])) {
+    return {
+      redirect: {
+        destination: `/signin?next=${encodeURIComponent("/proposals/new")}`,
+        permanent: false,
+      }
+    }
+  }
 
   return {
     props: { queries: dehydrate(queryClient) },
