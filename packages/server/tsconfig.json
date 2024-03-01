@@ -21,6 +21,7 @@
     "outDir": "build",
 
     "paths": {
+      "@snapcaster/lib/*": ["../lib/*"],
       "@db/*": ["./db/*"],
       "@type/*": ["./types/*"],
       "@schemas/*": ["./schemas/*"],

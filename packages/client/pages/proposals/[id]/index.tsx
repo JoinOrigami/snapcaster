@@ -1,9 +1,10 @@
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { NextPageContext } from "next";
 import Error from "next/error";
-import { isPast, isFuture, formatDistanceToNow } from "date-fns";
+import { isFuture, formatDistanceToNow } from "date-fns";
 import { IoShareOutline } from "react-icons/io5";
 
+import { isActive, hasEnded } from "@snapcaster/lib/proposal";
 import api from "@snapcaster/client/api";
 import Layout from "@components/layouts/main";
 import { useProposal } from "@hooks/queries";
@@ -85,12 +86,12 @@ function Page({ id }: { id: string }) {
             starts in {formatDistanceToNow(proposal?.start_timestamp)}
           </span>
         )}
-        {isPast(proposal?.start_timestamp) && isFuture(proposal?.end_timestamp) && (
+        {isActive(proposal) && (
           <span className="text-amber-500 italic">
             ends in {formatDistanceToNow(proposal?.start_timestamp)}
           </span>
         )}
-        {isPast(proposal?.end_timestamp) && (
+        {hasEnded(proposal) && (
           <span className="italic">
             ended {formatDistanceToNow(proposal?.start_timestamp, { addSuffix: true })}
           </span>

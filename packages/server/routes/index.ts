@@ -5,6 +5,8 @@ import fastifyStatic from "@fastify/static";
 import auth from "./auth";
 import images from "./images";
 import proposal from "./proposal";
+import vote from "./vote";
+import internal from "./internal";
 
 async function routes(fastify: FastifyInstance) {
   fastify.setErrorHandler((error, _request, reply) => {
@@ -18,9 +20,12 @@ async function routes(fastify: FastifyInstance) {
     root: path.join(__dirname, "..", "images"),
     prefix: "/images/",
   });
+
   fastify.register(auth);
   fastify.register(images);
   fastify.register(proposal);
+  fastify.register(vote);
+  fastify.register(internal);
 }
 
 export default routes;

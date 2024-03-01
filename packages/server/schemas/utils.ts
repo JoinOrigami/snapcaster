@@ -12,6 +12,7 @@ export const FORMATS: Record<string, Format> = {
   hex: /^0x[0-9a-fA-F]+$/,
   "eth-address": /^0x[0-9a-fA-F]{40}$/,
   uint256: /^[0-9]{1,78}$/,
+  uint64: /^[0-9]{1,20}$/,
 };
 
 // Forbids additional properties in the object
