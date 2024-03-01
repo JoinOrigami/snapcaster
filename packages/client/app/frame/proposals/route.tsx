@@ -4,10 +4,7 @@ import {
   getFrameMessage,
 } from "@coinbase/onchainkit";
 import { NextRequest, NextResponse } from "next/server";
-import {
-  deserializeActionState,
-  discriminatorForEligibilityType,
-} from "@utils";
+import { deserializeActionState } from "@utils";
 
 const BASE_URL = process.env.BASE_URL;
 const NEYNAR_API_KEY = process.env.NEYNAR_API_KEY;
@@ -23,35 +20,30 @@ export async function POST(req: NextRequest): Promise<Response> {
   }
 
   const state = deserializeActionState(message.raw);
-  const discriminator = discriminatorForEligibilityType(
-    state.eligibilityType,
-    message.button
-  );
+
+  console.log({ state, title: message.input });
+
+  // TODO: submit proposal to API and get proposal ID for redirect URL
 
   return new NextResponse(
     getFrameHtmlResponse({
       ogDescription: "Snapcaster",
       ogTitle: "Snapcaster",
-      input: { text: "Title" },
       buttons: [
-        { label: "Create Proposal" },
         {
-          label: "Continue on Web",
+          label: "View and share your proposal",
           action: "post_redirect",
-          target: `${BASE_URL}/frame/proposals/finalize-on-web`,
+          target: `${BASE_URL}/proposals/1`,
         },
       ],
       state: {
         ...state,
-        discriminator,
+        title: message.input,
       },
       image: {
         aspectRatio: "1.91:1",
-        src: `${BASE_URL}/api/images/proposal/title`,
+        src: `${BASE_URL}/api/images/proposal/finalized`,
       },
-      postUrl: `${BASE_URL}/frame/proposals`,
     })
   );
 }
-
-export const dynamic = "force-dynamic";
