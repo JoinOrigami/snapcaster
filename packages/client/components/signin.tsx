@@ -31,7 +31,7 @@ function SignIn({ onSuccess }: { onSuccess?: () => void }) {
   const handleSuccess = (data: UseSignInData) => {
     api("POST", "/auth/verify", data)
       .then(() => {
-        client.invalidateQueries({ queryKey: ["auth", "data"] });
+        client.invalidateQueries({ queryKey: ["auth"] });
         onSuccess?.();
       })
       .catch(() => toast.error("Account verification failed"));
