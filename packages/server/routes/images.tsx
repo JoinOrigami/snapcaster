@@ -303,6 +303,31 @@ async function routes(fastify: FastifyInstance) {
     },
   });
 
+  fastify.get("/images/proposal/finalized", {
+    handler: async (_, reply) => {
+      const svg = await satori(
+        template(
+          "Proposal Created!",
+          <p>
+            Snapshot confirmed, and the voting window is open for 24 hours! Use
+            the 'Share' button to generate a unique link and encourage your
+            community to participate. Let's make every voice count.
+          </p>
+        ),
+        imageConfig
+      );
+      const png = new Resvg(svg).render().asPng();
+      if (process.env.NODE_ENV === "production") {
+        reply.header("Cache-Control", "public, max-age=10");
+      } else {
+        reply.header("Cache-Control", "public, max-age=0");
+      }
+      reply.header("Content-Type", "image/png");
+
+      return reply.send(png);
+    },
+  });
+
   fastify.get("/images/proposals/:id", {
     schema: {
       params: S.ProposalRequestParams,
