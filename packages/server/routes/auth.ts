@@ -3,6 +3,7 @@ import { createAppClient, viemConnector } from "@farcaster/auth-client";
 
 import * as S from "@snapcaster/server/schemas/auth";
 import type { FastifyInstance } from "@snapcaster/server/types/fastify";
+import { getProfile } from "@lib/farcaster";
 
 async function routes(fastify: FastifyInstance) {
   fastify.get("/auth", {
@@ -54,6 +55,20 @@ async function routes(fastify: FastifyInstance) {
       request.session.set("fid", fid.toString());
 
       return { success: true };
+    }
+  });
+
+  fastify.get("/auth/profile", {
+    schema: {
+      response: {
+        200: S.AuthProfileResponse,
+      },
+    },
+    handler: async (request) => {
+      fastify.assert(request.fid, 401);
+
+      // TODO: cache profile
+      return await getProfile(request.fid);
     }
   });
 }
