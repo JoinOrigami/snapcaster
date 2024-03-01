@@ -9,14 +9,17 @@ type StateAction = {
 type SnapcasterState = {
   fid: number;
   eligibilityType: string;
-  discriminator: string;
-  title: string;
+  discriminator?: string;
+  title?: string;
 };
 
 export const deserializeActionState = ({
   action,
-}: NeynarFrameValidationInternalModel): Partial<SnapcasterState> => {
+}: NeynarFrameValidationInternalModel): SnapcasterState => {
   const stateAction = action as Partial<StateAction>;
+  if (!stateAction.state) {
+    throw new Error("Invalid state");
+  }
   const decoded = decodeURIComponent(stateAction.state.serialized);
   return JSON.parse(decoded);
 };
