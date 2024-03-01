@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { add } from "date-fns";
@@ -9,6 +7,8 @@ import type * as S from "@snapcaster/server/schemas/proposal";
 import api from "@snapcaster/client/api";
 import { Hex } from "viem";
 import { useRouter } from "next/navigation";
+import Layout from "@components/layouts/main";
+import { QueryClient, dehydrate } from "@tanstack/react-query";
 
 type FormValues = {
   title: string;
@@ -20,7 +20,19 @@ type FormValues = {
   eligibility_threshold: string;
 };
 
-export default function Page() {
+export async function getServerSideProps() {
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery({
+    queryKey: ["auth", "data"],
+    queryFn: () => api("GET", "/auth")
+  })
+
+  return {
+    props: { queries: dehydrate(queryClient) },
+  };
+}
+
+function Page() {
   const router = useRouter()
   const [isCreating, setIsCreating] = useState(false);
   const { watch, register, handleSubmit } = useForm<FormValues>({
@@ -51,7 +63,7 @@ export default function Page() {
   };
 
   return (
-    <div className="container-sm py-2">
+    <div className="container-sm">
       <h1 className="mb-6">New proposal</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(submit)}>
         <h4>Who can vote?</h4>
@@ -166,3 +178,9 @@ export default function Page() {
     </div>
   );
 }
+
+Page.getLayout = function getLayout(page: React.ReactNode) {;
+  return <Layout>{page}</Layout>;
+}
+
+export default Page;

@@ -1,13 +1,17 @@
-import { getFrameMetadata } from "@coinbase/onchainkit";
 import { LuVote } from "react-icons/lu";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { LuCamera } from "react-icons/lu";
 import { TbMoneybag } from "react-icons/tb";
-import { Metadata } from "next";
+
+import Layout from "@components/layouts/main";
+import { FrameMetadata } from "@coinbase/onchainkit";
+import Head from "next/head";
+import { QueryClient, dehydrate } from "@tanstack/react-query";
+import api from "../api";
 
 const BASE_URL = process.env.BASE_URL;
 
-const frameMetadata = getFrameMetadata({
+const frameMetadata = {
   buttons: [
     { label: "Create a proposal" },
     {
@@ -15,30 +19,37 @@ const frameMetadata = getFrameMetadata({
       action: "link",
       target: `${BASE_URL}/frame/proposals/new`,
     },
-  ],
+  ] as any,
   state: {},
   image: `${BASE_URL}/api/images/start`,
   postUrl: `${BASE_URL}/frame/proposals/new`,
-});
-
-export const metadata: Metadata = {
-  title: "Snapcaster",
-  description: "Snapcaster",
-  openGraph: {
-    siteName: "Snapcaster",
-    title: "Snapcaster: get voting",
-    type: "website",
-    description: "Based on-chain voting for Farcaster.",
-    images: [`${BASE_URL}/api/images/start`],
-  },
-  other: {
-    ...frameMetadata,
-  },
 };
 
-export default function Page() {
+export async function getServerSideProps() {
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery({
+    queryKey: ["auth", "data"],
+    queryFn: () => api("GET", "/auth")
+  })
+
+  return {
+    props: { queries: dehydrate(queryClient) },
+  };
+}
+
+function Page(props: {}) {
   return (
-    <div className="container">
+    <>
+      <Head>
+        <title>Snapcaster</title>
+        <meta name="description" content="Based on-chain voting for Farcaster" />
+        <meta property="og:site_name" content="Snapcaster" />
+        <meta property="og:title" content="Snapcaster: get voting" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="Based on-chain voting for Farcaster." />
+        <meta property="og:image" content={`${BASE_URL}/api/images/start`} />
+        <FrameMetadata {...frameMetadata} />
+      </Head>
       <div className="flex flex-col sm:items-center pt-[10vh] pb-[14vh] below-sm:py-[6vh]">
         <div className="bg-gradient-to-r from-primary to-secondary bg-clip-text">
           <h1 className="sm:text-center leading-tight text-5xl sm:text-6xl lg:text-7xl  inline text-transparent bg-clip-text">
@@ -99,6 +110,12 @@ export default function Page() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
+
+Page.getLayout = function getLayout(page: React.ReactNode) {;
+  return <Layout>{page}</Layout>;
+}
+
+export default Page;
