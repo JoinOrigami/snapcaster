@@ -34,8 +34,9 @@ function toCodePoint(unicodeSurrogates: string) {
   return r.join("-");
 }
 
-export const twemojiURL = (code: string) =>
-  `https://twemoji.maxcdn.com/v/latest/svg/${code.toLowerCase()}.svg`;
+export const twemojiURL = (code: string) => {
+  return `https://twemoji.maxcdn.com/v/latest/svg/${code.toLowerCase()}.svg`;
+};
 
 const emojiCache: Record<string, Promise<string>> = {};
 
