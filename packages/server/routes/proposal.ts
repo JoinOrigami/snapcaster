@@ -1,8 +1,8 @@
 import * as S from "@schemas/proposal";
 import type { FastifyInstance } from "@snapcaster/server/types/fastify";
 
-import { createProposal, findProposalById } from "@db/proposal";
-import { createProposalAttestation } from "@lib/eas";
+import { createProposal, findProposalById, updateProposal } from "@db/proposal";
+import { createProposalAttestation, waitForUID } from "@lib/eas";
 import { CompletedProposal } from "@db/index";
 import { Insertable } from "kysely";
 
@@ -26,15 +26,19 @@ async function routes(fastify: FastifyInstance) {
         data.eligibility_threshold !== null
       ));
 
-      const uid = await createProposalAttestation(
+      const tx_hash = await createProposalAttestation(
         data as Insertable<CompletedProposal>
       );
 
       const proposal = await createProposal({
         proposer_fid: request.fid,
-        uid,
+        tx_hash,
         ...request.body,
       });
+
+      waitForUID(tx_hash)
+        .then((uid) => updateProposal(proposal.id, { uid }))
+        .catch(console.error);
 
       return {
         ...proposal,
@@ -55,7 +59,7 @@ async function routes(fastify: FastifyInstance) {
       const proposal = await findProposalById(request.params.id);
 
       // make sure the proposal exists and is submitted on-chain
-      fastify.assert(proposal?.uid, 404);
+      fastify.assert(proposal?.tx_hash, 404);
 
       return {
         ...proposal,

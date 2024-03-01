@@ -24,6 +24,7 @@ export type TProposalResponse = Static<typeof ProposalResponse>;
 export const ProposalResponse = Type.Object({
   id: Type.Number(),
   proposer_fid: Type.String(),
+  tx_hash: Type.String(),
   uid: Nullable(Type.String()),
   title: Nullable(Type.String()),
   summary: Nullable(Type.String()),

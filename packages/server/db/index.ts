@@ -13,7 +13,7 @@ export type CompletedProposal = O.NonNullable<BaseProposal,
   | "end_timestamp"
   | "eligibility_type"
 >;
-export type Proposal = O.NonNullable<CompletedProposal, "uid">;
+export type Proposal = O.NonNullable<CompletedProposal, "tx_hash">;
 
 const dialect = new PostgresDialect({
   pool: new Pool({

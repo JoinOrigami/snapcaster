@@ -1,4 +1,4 @@
-import { Hex, encodeAbiParameters, getContract, keccak256, pad, parseAbiParameters } from "viem";
+import { Hex, encodeAbiParameters, getContract, keccak256, pad, parseAbiParameters, parseEventLogs } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { getUnixTime } from "date-fns";
 
@@ -30,7 +30,7 @@ const getEASContract = () => {
   })
 }
 
-export async function createProposalAttestation(proposal: Insertable<CompletedProposal>) {
+export async function createProposalAttestation(proposal: Omit<Insertable<CompletedProposal>, "tx_hash">) {
   const eas = getEASContract();
   const args = [
     proposal.title,
@@ -66,7 +66,7 @@ export async function createProposalAttestation(proposal: Insertable<CompletedPr
   return uid;
 }
 
-export async function createVoteAttestation(vote: Omit<Insertable<Vote>, "uid"> & {
+export async function createVoteAttestation(vote: Omit<Insertable<Vote>, "tx_hash"> & {
   proposal_uid: Hex;
 }) {
   const eas = getEASContract();
@@ -95,6 +95,22 @@ export async function createVoteAttestation(vote: Omit<Insertable<Vote>, "uid"> 
     value: 0n,
     account: privateKeyToAccount(process.env.ATTESTER_PRIVATE_KEY as Hex),
   });
+
+  return uid;
+}
+
+export async function waitForUID(hash: Hex) {
+  const receipt = await publicClient.waitForTransactionReceipt({ hash });
+  const logs = parseEventLogs({
+    abi: EAS,
+    logs: receipt.logs,
+  });
+
+  const args = logs.find((log) => log.eventName === "Attested")?.args;
+  const uid = (args as any)?.uid;
+  if (!uid) {
+    throw new Error(`expecting UID in log for tx: ${hash}`);
+  }
 
   return uid;
 }
