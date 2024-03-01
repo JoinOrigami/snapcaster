@@ -3,10 +3,10 @@ import type { FastifyInstance } from "@snapcaster/server/types/fastify";
 
 import { createProposal, findProposalById, updateProposal } from "@db/proposal";
 import { createProposalAttestation, waitForUID } from "@lib/eas";
-import { CompletedProposal } from "@db/index";
+import { Proposal } from "@db/index";
 import { Insertable } from "kysely";
 
-const serializeDate = (date: Date | null) => date && date.toISOString();
+const serializeDate = (date: Date) => date && date.toISOString();
 
 async function routes(fastify: FastifyInstance) {
   fastify.post("/proposals", {
@@ -27,7 +27,7 @@ async function routes(fastify: FastifyInstance) {
       ));
 
       const tx_hash = await createProposalAttestation(
-        data as Insertable<CompletedProposal>
+        data as Insertable<Proposal>
       );
 
       const proposal = await createProposal({

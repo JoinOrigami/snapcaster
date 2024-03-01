@@ -15,12 +15,12 @@ export interface Proposal {
   eligibility_contract: string | null;
   eligibility_threshold: Numeric | null;
   eligibility_type: string;
-  end_timestamp: Timestamp | null;
+  end_timestamp: Timestamp;
   id: Generated<number>;
   proposer_fid: Int8;
-  start_timestamp: Timestamp | null;
+  start_timestamp: Timestamp;
   summary: string | null;
-  title: string | null;
+  title: string;
   tx_hash: string;
   uid: string | null;
 }

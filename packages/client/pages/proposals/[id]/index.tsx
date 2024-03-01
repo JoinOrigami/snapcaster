@@ -1,5 +1,5 @@
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { NextPageContext } from "next";
+import { GetServerSidePropsContext } from "next";
 import Error from "next/error";
 import { isFuture, formatDistanceToNow } from "date-fns";
 import { IoShareOutline } from "react-icons/io5";
@@ -14,12 +14,12 @@ import { FrameMetadata } from "@coinbase/onchainkit";
 const BASE_URL = process.env.BASE_URL;
 
 // TODO: refactor and move auth logic into a common place
-export async function getServerSideProps(ctx: NextPageContext) {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
     queryKey: ["auth", "data"],
     queryFn: () => api("GET", "/auth", null, {
-      Cookie: ctx.req.headers.cookie
+      Cookie: ctx.req.headers.cookie ?? ""
     })
   });
 
@@ -78,7 +78,7 @@ function Page({ id }: { id: string }) {
           Share
         </button>
       </div>
-      <div className="text-gray-200 mt-2 mb-6 flex gap-3">
+      {proposal && (<div className="text-gray-200 mt-2 mb-6 flex gap-3">
         <span>by arshsingh.eth</span>
         <span className="text-gray-500 dark:text-gray-100">|</span>
         {isFuture(proposal?.start_timestamp) && (
@@ -96,7 +96,7 @@ function Page({ id }: { id: string }) {
             ended {formatDistanceToNow(proposal?.start_timestamp, { addSuffix: true })}
           </span>
         )}
-      </div>
+      </div>)}
       <p className="my-8">{proposal?.summary}</p>
 
       <h3>Current results</h3>

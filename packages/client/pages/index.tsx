@@ -2,13 +2,13 @@ import { LuVote } from "react-icons/lu";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { LuCamera } from "react-icons/lu";
 import { TbMoneybag } from "react-icons/tb";
+import { GetServerSidePropsContext } from "next";
 
 import Layout from "@components/layouts/main";
 import { FrameMetadata } from "@coinbase/onchainkit";
 import Head from "next/head";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import api from "../api";
-import { NextPageContext } from "next";
 
 const BASE_URL = process.env.BASE_URL;
 
@@ -26,13 +26,13 @@ const frameMetadata = {
   postUrl: `${BASE_URL}/frame/proposals/new`,
 };
 
-export async function getServerSideProps(ctx: NextPageContext) {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["auth", "data"],
     queryFn: () =>
       api("GET", "/auth", null, {
-        Cookie: ctx.req.headers.cookie,
+        Cookie: ctx.req.headers.cookie ?? "",
       }),
   });
 
