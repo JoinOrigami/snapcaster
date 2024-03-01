@@ -39,6 +39,7 @@
     --gutter-r: 20px;
     --gutter-l: 20px;
 
+    font-family: 'Outfit', sans-serif;
     @apply bg-base-100 text-content;
   }
 
