@@ -18,7 +18,7 @@ const frameMetadata = {
     {
       label: "Create on the web",
       action: "link",
-      target: `${BASE_URL}/frame/proposals/new`,
+      target: `${BASE_URL}/proposals/new`,
     },
   ] as any,
   state: {},
