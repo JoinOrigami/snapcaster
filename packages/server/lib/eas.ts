@@ -5,7 +5,7 @@ import { getUnixTime } from "date-fns";
 import { CompletedProposal, Vote } from "@snapcaster/server/db";
 import { publicClient, walletClient } from "./rpc";
 import { EAS } from "./abi";
-import { Insertable, Selectable } from "kysely";
+import { Insertable } from "kysely";
 
 const EAS_ADDRESS = "0x4200000000000000000000000000000000000021";
 
@@ -66,7 +66,7 @@ export async function createProposalAttestation(proposal: Insertable<CompletedPr
   return uid;
 }
 
-export async function createVoteAttestation(vote: Selectable<Vote> & {
+export async function createVoteAttestation(vote: Omit<Insertable<Vote>, "uid"> & {
   proposal_uid: Hex;
 }) {
   const eas = getEASContract();

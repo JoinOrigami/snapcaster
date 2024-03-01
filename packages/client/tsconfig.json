@@ -6,11 +6,7 @@
         "name": "next"
       }
     ],
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -23,28 +19,14 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "paths": {
-      "@components/*": [
-        "./components/*"
-      ],
-      "@images/*": [
-        "./images/*"
-      ],
-      "@hooks/*": [
-        "./hooks/*"
-      ],
-      "@utils": [
-        "./utils"
-      ]
+      "@snapcaster/lib/*": ["../lib/*"],
+      "@components/*": ["./components/*"],
+      "@images/*": ["./images/*"],
+      "@hooks/*": ["./hooks/*"],
+      "@utils": ["./utils"]
     },
     "strictNullChecks": true
   },
-  "include": [
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

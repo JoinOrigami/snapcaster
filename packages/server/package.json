@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "ESBUILD_TARGET=index nodemon",
     "migrate": "tsx bin/migrate.ts",
+    "typecheck": "tsc --noEmit",
     "typegen": "kysely-codegen --out-file ./db/types.d.ts --dialect postgres"
   },
   "dependencies": {

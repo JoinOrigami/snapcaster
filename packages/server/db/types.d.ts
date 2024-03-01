@@ -32,6 +32,7 @@ export interface Vote {
   signature: string;
   uid: string;
   voter_fid: Int8;
+  weight: Numeric;
 }
 
 export interface DB {
