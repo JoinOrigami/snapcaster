@@ -332,7 +332,6 @@ async function routes(fastify: FastifyInstance) {
     handler: async (request, reply) => {
       const proposal = await findProposalById(request.params.id);
       fastify.assert(proposal, 404, "Proposal not found");
-      fastify.assert(proposal.title, 404, "Proposal not found");
 
       const svg = await satori(
         template(proposal.title, <p>{proposal.summary}</p>),

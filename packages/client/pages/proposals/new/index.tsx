@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { add } from "date-fns";
 import toast from "react-hot-toast";
-import { GetServerSidePropsContext } from "next";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { type NextRequest } from "next/server";
 
 import type * as S from "@snapcaster/server/schemas/proposal";
 import api from "@snapcaster/client/api";
-import { Hex } from "viem";
 import { useRouter } from "next/navigation";
 import Layout from "@components/layouts/main";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
@@ -31,6 +31,14 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       }),
   });
 
+  type ProposalQueryParams = {
+    title: string;
+    eligibilityType: string;
+    discriminator: string;
+  };
+
+  const query = ctx.query as ProposalQueryParams;
+
   if (!queryClient.getQueryData(["auth", "data"])) {
     return {
       redirect: {
@@ -41,16 +49,22 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   }
 
   return {
-    props: { queries: dehydrate(queryClient) },
+    props: { queries: dehydrate(queryClient), query },
   };
 }
 
-function Page() {
+function Page({
+  query,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
+  const { title, eligibilityType, discriminator } = query;
   const { watch, register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
-      eligibility_type: "mutuals",
+      title: title,
+      discriminator: eligibilityType === "token" ? discriminator : "",
+      eligibility_type:
+        eligibilityType === "farcaster" ? discriminator : "token" ?? "mutuals",
       _votingPeriod: "24",
     },
   });
