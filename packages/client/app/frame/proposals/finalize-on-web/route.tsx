@@ -21,11 +21,19 @@ export async function POST(req: NextRequest): Promise<Response> {
 
   const state = deserializeActionState(message.raw);
 
+  const authRes = await fetch(
+    `http://server:3001/internal/auth/${message.interactor.fid}`,
+    {
+      method: "POST",
+    }
+  );
+  const cookie = authRes.headers.get("set-cookie");
+
   return NextResponse.redirect(
     new URL(
       `${BASE_URL}/proposals/new?title=${message.input}&eligibilityType=${state.eligibilityType}&discriminator=${state.discriminator}`
     ),
-    302
+    { status: 302, headers: { "set-cookie": cookie as string } }
   );
 }
 
