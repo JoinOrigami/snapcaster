@@ -6,6 +6,11 @@ export const ProposalRequestParams = StrictObject({
   id: Type.Number(),
 });
 
+export const ProposalVoteRequestParams = StrictObject({
+  id: Type.Number(),
+  fid: Type.String(),
+});
+
 export type TCreateProposalPayload = Static<typeof CreateProposalPayload>;
 export const CreateProposalPayload = StrictObject({
   title: Type.String({ minLength: 1, maxLength: 100 }),
