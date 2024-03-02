@@ -66,6 +66,7 @@ function Page({ id }: { id: string }) {
             target: `${BASE_URL}/proposals/${id}`,
           },
         ]}
+        postUrl={`${BASE_URL}/frame/proposals/${id}`}
       />
       <div className="flex items-center justify-between gap-6">
         <h1>{proposal?.title}</h1>
