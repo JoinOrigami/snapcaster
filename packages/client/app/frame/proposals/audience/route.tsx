@@ -22,22 +22,22 @@ export async function POST(req: NextRequest): Promise<Response> {
   type ScopeDiscriminators = {
     [key: number]: {
       buttons: [FrameButtonMetadata, ...FrameButtonMetadata[]];
-      image: string;
+      discriminator: string;
     };
   };
 
   const scopes: ScopeDiscriminators = {
     1: {
       buttons: [
-        { label: "Mutuals" },
-        { label: "Follows" },
-        { label: "Active" },
+        { label: "mutuals" },
+        { label: "follows" },
+        { label: "active" },
       ],
-      image: "farcaster",
+      discriminator: "farcaster",
     },
     2: {
-      buttons: [{ label: "$DEGEN" }, { label: "$PERL" }, { label: "$FRAME" }],
-      image: "token",
+      buttons: [{ label: "$DEGEN" }, { label: "NOUNS" }],
+      discriminator: "token",
     },
   };
 
@@ -51,11 +51,14 @@ export async function POST(req: NextRequest): Promise<Response> {
       ogDescription: "Snapcaster",
       ogTitle: "Snapcaster",
       buttons: scopes[message.button].buttons,
-      state: { fid: message.interactor.fid, eligibilityType: "farcaster" },
+      state: {
+        fid: message.interactor.fid,
+        eligibilityType: scopes[message.button].discriminator,
+      },
       image: {
         aspectRatio: "1.91:1",
         src: `${BASE_URL}/api/images/proposal/audience/${
-          scopes[message.button].image
+          scopes[message.button].discriminator
         }`,
       },
       postUrl: `${BASE_URL}/frame/proposals/audience/scope`,

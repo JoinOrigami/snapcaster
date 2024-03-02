@@ -21,10 +21,7 @@ async function routes(fastify: FastifyInstance) {
 
       const data = request.body;
 
-      fastify.assert(data.eligibility_type !== "contract" || (
-        data.eligibility_contract &&
-        data.eligibility_threshold !== null
-      ));
+      fastify.assert(data.eligibility_type && data.discriminator, 401);
 
       const tx_hash = await createProposalAttestation(
         data as Insertable<Proposal>
@@ -45,7 +42,7 @@ async function routes(fastify: FastifyInstance) {
         start_timestamp: serializeDate(proposal.start_timestamp),
         end_timestamp: serializeDate(proposal.end_timestamp),
       };
-    }
+    },
   });
 
   fastify.get("/proposals/:id", {
@@ -66,7 +63,7 @@ async function routes(fastify: FastifyInstance) {
         start_timestamp: serializeDate(proposal.start_timestamp),
         end_timestamp: serializeDate(proposal.end_timestamp),
       };
-    }
+    },
   });
 }
 

@@ -21,8 +21,6 @@ export async function POST(req: NextRequest): Promise<Response> {
 
   const state = deserializeActionState(message.raw);
 
-  console.log({ state, title: message.input });
-
   return NextResponse.redirect(
     new URL(
       `${BASE_URL}/proposals/new?title=${message.input}&eligibilityType=${state.eligibilityType}&discriminator=${state.discriminator}`
