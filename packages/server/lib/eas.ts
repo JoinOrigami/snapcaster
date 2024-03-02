@@ -1,4 +1,12 @@
-import { Hex, encodeAbiParameters, getContract, keccak256, pad, parseAbiParameters, parseEventLogs } from "viem";
+import {
+  Hex,
+  encodeAbiParameters,
+  getContract,
+  keccak256,
+  pad,
+  parseAbiParameters,
+  parseEventLogs,
+} from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { getUnixTime } from "date-fns";
 
@@ -10,8 +18,9 @@ import { Insertable } from "kysely";
 const EAS_ADDRESS = "0x4200000000000000000000000000000000000021";
 
 const PROPOSAL_SCHEMA = {
-  uid: "0xf3c83d778e0ccde8dcc959ad907f5c7e82a05728a3a4eafc7370138bc8b003e8",
-  schema: "string title,bytes32 summary,bytes32 description,uint64 startTimestamp,uint64 endTimestamp,string eligibilityType,address eligibilityContract,uint256 eligibilityThreshold",
+  uid: "0x465f5d486ba0d9eb095613f9de6520cee94e60c48fbf785b3b3039d94e9879c3",
+  schema:
+    "string title,bytes32 summary,bytes32 description,uint64 startTimestamp,uint64 endTimestamp,string eligibilityType,string discriminator",
 } as const;
 
 const VOTE_SCHEMA = {
@@ -26,11 +35,13 @@ const getEASContract = () => {
     client: {
       public: publicClient,
       wallet: walletClient,
-    }
-  })
-}
+    },
+  });
+};
 
-export async function createProposalAttestation(proposal: Omit<Insertable<Proposal>, "tx_hash">) {
+export async function createProposalAttestation(
+  proposal: Omit<Insertable<Proposal>, "tx_hash">
+) {
   const eas = getEASContract();
   const args = [
     proposal.title,
@@ -39,36 +50,42 @@ export async function createProposalAttestation(proposal: Omit<Insertable<Propos
     BigInt(getUnixTime(proposal.start_timestamp)),
     BigInt(getUnixTime(proposal.end_timestamp)),
     proposal.eligibility_type,
-    (proposal.eligibility_contract || "0x0000000000000000000000000000000000000000") as Hex,
-    BigInt(proposal.eligibility_threshold || 0),
+    proposal.discriminator!,
   ] as const;
 
   const data = encodeAbiParameters(
     parseAbiParameters(PROPOSAL_SCHEMA.schema),
-    args,
+    args
   );
 
-  const uid = await eas.write.attest([{
-    schema: PROPOSAL_SCHEMA.uid,
-    data: {
-      data,
-      recipient: "0x0000000000000000000000000000000000000000",
-      revocable: false,
-      expirationTime: 0n,
+  const uid = await eas.write.attest(
+    [
+      {
+        schema: PROPOSAL_SCHEMA.uid,
+        data: {
+          data,
+          recipient: "0x0000000000000000000000000000000000000000",
+          revocable: false,
+          expirationTime: 0n,
+          value: 0n,
+          refUID: pad("0x0"),
+        },
+      },
+    ],
+    {
       value: 0n,
-      refUID: pad("0x0")
+      account: privateKeyToAccount(process.env.ATTESTER_PRIVATE_KEY as Hex),
     }
-  }], {
-    value: 0n,
-    account: privateKeyToAccount(process.env.ATTESTER_PRIVATE_KEY as Hex),
-  });
+  );
 
   return uid;
 }
 
-export async function createVoteAttestation(vote: Omit<Insertable<Vote>, "tx_hash"> & {
-  proposal_uid: Hex;
-}) {
+export async function createVoteAttestation(
+  vote: Omit<Insertable<Vote>, "tx_hash"> & {
+    proposal_uid: Hex;
+  }
+) {
   const eas = getEASContract();
   const args = [
     BigInt(vote.voter_fid),
@@ -78,23 +95,28 @@ export async function createVoteAttestation(vote: Omit<Insertable<Vote>, "tx_has
 
   const data = encodeAbiParameters(
     parseAbiParameters(VOTE_SCHEMA.schema),
-    args,
+    args
   );
 
-  const uid = await eas.write.attest([{
-    schema: VOTE_SCHEMA.uid,
-    data: {
-      data,
-      recipient: "0x0000000000000000000000000000000000000000",
-      revocable: false,
-      expirationTime: 0n,
+  const uid = await eas.write.attest(
+    [
+      {
+        schema: VOTE_SCHEMA.uid,
+        data: {
+          data,
+          recipient: "0x0000000000000000000000000000000000000000",
+          revocable: false,
+          expirationTime: 0n,
+          value: 0n,
+          refUID: vote.proposal_uid,
+        },
+      },
+    ],
+    {
       value: 0n,
-      refUID: vote.proposal_uid,
+      account: privateKeyToAccount(process.env.ATTESTER_PRIVATE_KEY as Hex),
     }
-  }], {
-    value: 0n,
-    account: privateKeyToAccount(process.env.ATTESTER_PRIVATE_KEY as Hex),
-  });
+  );
 
   return uid;
 }

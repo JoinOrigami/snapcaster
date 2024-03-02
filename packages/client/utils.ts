@@ -30,14 +30,13 @@ export const discriminatorForEligibilityType = (
 ) => {
   const discriminators = {
     farcaster: {
-      1: "Mutuals",
-      2: "Follows",
-      3: "Active",
+      1: "mutuals",
+      2: "follows",
+      3: "active",
     },
-    contract: {
-      1: "$DEGEN",
-      2: "$PERL",
-      3: "$FRAME",
+    token: {
+      1: "DEGEN",
+      2: "NOUNS",
     },
   };
   return discriminators[eligibilityType][buttonIndex];

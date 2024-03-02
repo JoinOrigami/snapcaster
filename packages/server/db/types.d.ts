@@ -12,8 +12,7 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export interface Proposal {
   description: string | null;
-  eligibility_contract: string | null;
-  eligibility_threshold: Numeric | null;
+  discriminator: string | null;
   eligibility_type: string;
   end_timestamp: Timestamp;
   id: Generated<number>;
