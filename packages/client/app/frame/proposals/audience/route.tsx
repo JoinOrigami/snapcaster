@@ -29,9 +29,9 @@ export async function POST(req: NextRequest): Promise<Response> {
   const scopes: ScopeDiscriminators = {
     1: {
       buttons: [
-        { label: "mutuals" },
-        { label: "follows" },
-        { label: "active" },
+        { label: "Mutuals" },
+        { label: "Followers" },
+        { label: "Active" },
       ],
       discriminator: "farcaster",
     },
