@@ -5,7 +5,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .alterTable("proposal")
     .dropColumn("eligibility_contract")
     .dropColumn("eligibility_threshold")
-    .addColumn("discriminator", "text")
+    .addColumn("discriminator", "text", (c) => c.notNull())
     .execute();
 }
 

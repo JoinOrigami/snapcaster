@@ -36,7 +36,7 @@ export async function POST(req: NextRequest): Promise<Response> {
       discriminator: "farcaster",
     },
     2: {
-      buttons: [{ label: "$DEGEN" }, { label: "NOUNS" }],
+      buttons: [{ label: "$DEGEN" }, { label: "NOUN" }],
       discriminator: "token",
     },
   };

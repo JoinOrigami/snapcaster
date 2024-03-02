@@ -36,7 +36,7 @@ export const discriminatorForEligibilityType = (
     },
     token: {
       1: "DEGEN",
-      2: "NOUNS",
+      2: "NOUN",
     },
   };
   return discriminators[eligibilityType][buttonIndex];
