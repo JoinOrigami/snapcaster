@@ -8,6 +8,8 @@ import * as S from "@schemas/proposal";
 import type { FastifyInstance } from "@type/fastify";
 import { loadEmoji, getIconCode } from "@lib/twemoji";
 import { findProposalById } from "@db/proposal";
+import { findVoteByProposalIdAndFid } from "@db/vote";
+import { formatDistanceToNow } from "date-fns";
 
 const outfitMedium = fs.readFileSync(
   path.join(__dirname, "..", "fonts", "Outfit-Medium.otf")
@@ -339,6 +341,45 @@ async function routes(fastify: FastifyInstance) {
           <p>
             {proposal.summary ??
               "What's the verdict? Speak up and make it count."}
+          </p>
+        ),
+        imageConfig
+      );
+
+      const png = new Resvg(svg).render().asPng();
+      if (process.env.NODE_ENV === "production") {
+        reply.header("Cache-Control", "public, max-age=10");
+      } else {
+        reply.header("Cache-Control", "public, max-age=0");
+      }
+      reply.header("Content-Type", "image/png");
+
+      return reply.send(png);
+    },
+  });
+
+  fastify.get("/images/proposals/:id/votes/:fid", {
+    schema: {
+      params: S.ProposalVoteRequestParams,
+    },
+    handler: async (request, reply) => {
+      const proposal = await findProposalById(request.params.id);
+      const vote = await findVoteByProposalIdAndFid(
+        request.params.id,
+        request.params.fid
+      );
+      fastify.assert(proposal, 404, "Proposal not found");
+      fastify.assert(vote, 404, "Vote not found");
+
+      const choice = vote.choice === 0 ? "'For'" : "'Against'";
+
+      const svg = await satori(
+        template(
+          proposal.title,
+          <p>
+            We've locked in your {choice} vote! Voting closes in{" "}
+            {formatDistanceToNow(proposal.end_timestamp)}, check back for the
+            results or follow along on the web.
           </p>
         ),
         imageConfig
