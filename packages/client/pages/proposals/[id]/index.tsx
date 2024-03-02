@@ -15,17 +15,18 @@ const BASE_URL = process.env.BASE_URL;
 
 // TODO: refactor and move auth logic into a common place
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["auth", "data"],
-    queryFn: () => api("GET", "/auth", null, {
-      Cookie: ctx.req.headers.cookie ?? ""
-    })
+    queryFn: () =>
+      api("GET", "/auth", null, {
+        Cookie: ctx.req.headers.cookie ?? "",
+      }),
   });
 
   await queryClient.prefetchQuery({
-    queryKey: ["proposals", "deatil", ctx.query.id],
-    queryFn: () => api("GET", `/proposals/${ctx.query.id}`)
+    queryKey: ["proposals", "detail", ctx.query.id],
+    queryFn: () => api("GET", `/proposals/${ctx.query.id}`),
   });
 
   return {
@@ -45,9 +46,7 @@ function Page({ id }: { id: string }) {
 
   const share = () => {
     if (navigator.share) {
-      navigator
-        .share({ "url": window.location.href })
-        .catch(console.info);
+      navigator.share({ url: window.location.href }).catch(console.info);
       return;
     }
 
@@ -55,17 +54,17 @@ function Page({ id }: { id: string }) {
     toast("Share link copied");
   };
 
-
   return (
     <div className="container-sm">
       <FrameMetadata
         image={`${BASE_URL}/api/images/proposals/${id}`}
         buttons={[
+          { label: "Ready to vote, anon?" },
           {
-            label: "View proposal",
+            label: "View details",
             action: "link",
-            target: `${BASE_URL}/proposals/${id}`
-          }
+            target: `${BASE_URL}/proposals/${id}`,
+          },
         ]}
       />
       <div className="flex items-center justify-between gap-6">
@@ -78,25 +77,30 @@ function Page({ id }: { id: string }) {
           Share
         </button>
       </div>
-      {proposal && (<div className="text-gray-200 mt-2 mb-6 flex gap-3">
-        <span>by arshsingh.eth</span>
-        <span className="text-gray-500 dark:text-gray-100">|</span>
-        {isFuture(proposal?.start_timestamp) && (
-          <span className="text-lime-500 italic">
-            starts in {formatDistanceToNow(proposal?.start_timestamp)}
-          </span>
-        )}
-        {isActive(proposal) && (
-          <span className="text-amber-500 italic">
-            ends in {formatDistanceToNow(proposal?.start_timestamp)}
-          </span>
-        )}
-        {hasEnded(proposal) && (
-          <span className="italic">
-            ended {formatDistanceToNow(proposal?.start_timestamp, { addSuffix: true })}
-          </span>
-        )}
-      </div>)}
+      {proposal && (
+        <div className="text-gray-200 mt-2 mb-6 flex gap-3">
+          <span>by arshsingh.eth</span>
+          <span className="text-gray-500 dark:text-gray-100">|</span>
+          {isFuture(proposal?.start_timestamp) && (
+            <span className="text-lime-500 italic">
+              starts in {formatDistanceToNow(proposal?.start_timestamp)}
+            </span>
+          )}
+          {isActive(proposal) && (
+            <span className="text-amber-500 italic">
+              ends in {formatDistanceToNow(proposal?.start_timestamp)}
+            </span>
+          )}
+          {hasEnded(proposal) && (
+            <span className="italic">
+              ended{" "}
+              {formatDistanceToNow(proposal?.start_timestamp, {
+                addSuffix: true,
+              })}
+            </span>
+          )}
+        </div>
+      )}
       <p className="my-8">{proposal?.summary}</p>
 
       <h3>Current results</h3>
@@ -127,14 +131,14 @@ function Page({ id }: { id: string }) {
         onClick={share}
       >
         <IoShareOutline className="w-5 h-5 mb-0.5" />
-        Share proposal 
+        Share proposal
       </div>
     </div>
   );
 }
 
-Page.getLayout = function getLayout(page: React.ReactNode) {;
+Page.getLayout = function getLayout(page: React.ReactNode) {
   return <Layout>{page}</Layout>;
-}
+};
 
 export default Page;
