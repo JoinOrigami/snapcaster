@@ -32,8 +32,8 @@ export const ProposalResponse = Type.Object({
   title: Type.String(),
   summary: Nullable(Type.String()),
   description: Nullable(Type.String()),
-  start_timestamp: Nullable(Type.String()),
-  end_timestamp: Nullable(Type.String()),
-  discriminator: Nullable(Type.String()),
+  start_timestamp: Type.String(),
+  end_timestamp: Type.String(),
+  discriminator: Type.String(),
   eligibility_type: Type.String(),
 });
