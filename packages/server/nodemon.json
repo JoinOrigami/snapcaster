@@ -1,5 +1,5 @@
 {
-  "watch": ["*"],
+  "watch": ["*", "../lib/*"],
   "ignore": ["node_modules"],
   "ext": "ts,js,tsx",
   "quiet": true,
