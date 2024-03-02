@@ -68,7 +68,7 @@ async function routes(fastify: FastifyInstance) {
       fastify.assert(request.fid, 401);
 
       // TODO: cache profile
-      return await getProfile(request.fid);
+      return await getProfile({ fid: request.fid });
     }
   });
 }

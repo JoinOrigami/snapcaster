@@ -37,7 +37,7 @@ async function routes(fastify: FastifyInstance) {
       const data = {
         ...request.body,
         voter_fid: request.fid,
-        weight,
+        weight: weight.toString(),
         signature: "0x0", // TODO
       };
 
