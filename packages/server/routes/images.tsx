@@ -396,6 +396,32 @@ async function routes(fastify: FastifyInstance) {
       return reply.send(png);
     },
   });
+
+  fastify.get("/images/proposals/:id/eligibility", {
+    schema: {
+      querystring: S.ProposalEligibilityMessageQueryParams,
+      params: S.ProposalEligibilityRequestParams,
+    },
+    handler: async (request, reply) => {
+      const proposal = await findProposalById(request.params.id);
+      fastify.assert(proposal, 404, "Proposal not found");
+
+      const svg = await satori(
+        template(proposal.title, <p>{request.query.message}</p>),
+        imageConfig
+      );
+
+      const png = new Resvg(svg).render().asPng();
+      if (process.env.NODE_ENV === "production") {
+        reply.header("Cache-Control", "public, max-age=10");
+      } else {
+        reply.header("Cache-Control", "public, max-age=0");
+      }
+      reply.header("Content-Type", "image/png");
+
+      return reply.send(png);
+    },
+  });
 }
 
 export default routes;

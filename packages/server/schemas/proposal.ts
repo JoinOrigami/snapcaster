@@ -11,6 +11,22 @@ export const ProposalVoteRequestParams = StrictObject({
   fid: Type.String(),
 });
 
+export const ProposalEligibilityRequestParams = StrictObject({
+  id: Type.Number(),
+});
+
+export const ProposalEligibilityMessageQueryParams = StrictObject({
+  message: Type.String(),
+});
+
+export type TProposalEligibilityResponse = Static<
+  typeof ProposalEligibilityResponse
+>;
+export const ProposalEligibilityResponse = StrictObject({
+  eligible: Type.Boolean(),
+  message: Type.Optional(Type.String()),
+});
+
 export type TCreateProposalPayload = Static<typeof CreateProposalPayload>;
 export const CreateProposalPayload = StrictObject({
   title: Type.String({ minLength: 1, maxLength: 100 }),

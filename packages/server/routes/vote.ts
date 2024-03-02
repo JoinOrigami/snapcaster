@@ -6,7 +6,7 @@ import { isActive } from "@snapcaster/lib/proposal";
 import { createVote, findVoteByProposalIdAndFid, updateVote } from "@db/vote";
 import * as S from "@schemas/vote";
 import { createVoteAttestation, waitForUID } from "@lib/eas";
-import { findProposalById } from "@db/proposal";
+import { findProposalById, isUserEligibleToVote } from "@db/proposal";
 import { Proposal } from "@db/index";
 import { getVotingWeight } from "@lib/vote";
 import { getProfile } from "@lib/farcaster";
@@ -25,15 +25,11 @@ async function routes(fastify: FastifyInstance) {
       const proposal = (await findProposalById(
         request.body.proposal_id
       )) as Selectable<Proposal>;
-
-      fastify.assert(proposal?.uid, 400);
-      fastify.assert(isActive(proposal), 400, "This proposal is not active");
-
-      const existing = await findVoteByProposalIdAndFid(
-        proposal.id,
+      const voteEligibility = await isUserEligibleToVote(
+        request.body.proposal_id,
         request.fid
       );
-      fastify.assert(!existing, 400, "You have already voted on this proposal");
+      fastify.assert(voteEligibility.eligible, 400, voteEligibility.message);
 
       let weight = BigInt(0);
       if (proposal.eligibility_type === "token") {
@@ -53,7 +49,7 @@ async function routes(fastify: FastifyInstance) {
           fastify.assert(
             profile.active_status === "active",
             400,
-            "Only active users can vote on this proposal"
+            "Only users with the active badge can vote on this proposal"
           );
         } else if (proposal.discriminator === "followers") {
           fastify.assert(

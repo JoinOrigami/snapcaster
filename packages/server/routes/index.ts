@@ -8,7 +8,7 @@ import internal from "./internal";
 
 async function routes(fastify: FastifyInstance) {
   fastify.setErrorHandler((error, _request, reply) => {
-    console.error(error);
+    console.error({ error, requestURL: _request.url });
     if (error.statusCode) {
       reply.status(error.statusCode).send({ ok: false, error: error.message });
     }

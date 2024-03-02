@@ -9,7 +9,10 @@ import { getProfile } from "./farcaster";
 
 const CHAINS = [base, mainnet];
 
-export const getVotingWeight = async (proposal: Selectable<Proposal>, fid: string): Promise<bigint> => {
+export const getVotingWeight = async (
+  proposal: Selectable<Proposal>,
+  fid: string
+): Promise<bigint> => {
   const profile = await getProfile({ fid, viewer_fid: proposal.proposer_fid });
 
   if (proposal.eligibility_type === "farcaster") {
@@ -19,13 +22,14 @@ export const getVotingWeight = async (proposal: Selectable<Proposal>, fid: strin
     const eligibility: Record<string, boolean> = {
       mutuals: following && followed_by,
       followers: followed_by,
-      active: profile.active,
+      active: profile.active_status === "active",
     };
 
     return eligibility[proposal.discriminator] ? 1n : 0n;
   }
 
-  const token = VOTING_TOKENS[proposal.discriminator as keyof typeof VOTING_TOKENS];
+  const token =
+    VOTING_TOKENS[proposal.discriminator as keyof typeof VOTING_TOKENS];
   if (!token) {
     throw new Error("Invalid voting token");
   }
@@ -40,16 +44,18 @@ export const getVotingWeight = async (proposal: Selectable<Proposal>, fid: strin
     ...profile.verified_addresses.eth_addresses,
   ];
 
-  const balances = await Promise.all(addresses.map((address) =>
-    readContract(client, {
-      address: token.address,
-      functionName: "balanceOf",
-      args: [address],
-      abi: parseAbi([
-        `function balanceOf(address owner) view returns (uint256)`
-      ]),
-    })
-  ));
+  const balances = await Promise.all(
+    addresses.map((address) =>
+      readContract(client, {
+        address: token.address,
+        functionName: "balanceOf",
+        args: [address],
+        abi: parseAbi([
+          `function balanceOf(address owner) view returns (uint256)`,
+        ]),
+      })
+    )
+  );
 
   return balances.reduce((acc, balance) => acc + balance, 0n);
-}
+};
