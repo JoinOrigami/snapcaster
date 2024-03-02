@@ -15,8 +15,19 @@ export const useProfile = () =>
     queryFn: () => api<S.TAuthProfileResponse>("GET", `/auth/profile`),
   });
 
-export const useProposal = (id: number | string) =>
+export const useAuthorProfile = (
+  fid: string | undefined,
+  options: { enabled: boolean }
+) =>
   useQuery({
-    queryKey: ["proposals", "deatil", id],
-    queryFn: () => api<S.TProposalResponse>("GET", `/proposals/${id}`),
+    queryKey: ["author", "profile", fid],
+    queryFn: () => api<S.TAuthProfileResponse>("GET", `/profile/${fid}`),
+    enabled: options.enabled,
+  });
+
+export const useProposalWithResults = (id: number | string) =>
+  useQuery({
+    queryKey: ["proposals", "detail", id],
+    queryFn: () =>
+      api<S.TProposalWithResultsResponse>("GET", `/proposals/${id}`),
   });

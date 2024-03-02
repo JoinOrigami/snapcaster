@@ -58,3 +58,20 @@ export const ProposalResponse = Type.Object({
   discriminator: Type.String(),
   eligibility_type: Type.String(),
 });
+
+export type TProposalResultsResponse = Static<typeof ProposalResultsResponse>;
+export const ProposalResultsResponse = Type.Object({
+  results: Type.Object({
+    for: Type.Number(),
+    against: Type.Number(),
+    total: Type.Number(),
+  }),
+});
+
+export type TProposalWithResultsResponse = Static<
+  typeof ProposalWithResultsResponse
+>;
+export const ProposalWithResultsResponse = Type.Intersect([
+  ProposalResponse,
+  ProposalResultsResponse,
+]);

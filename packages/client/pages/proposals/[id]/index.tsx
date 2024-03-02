@@ -7,7 +7,7 @@ import { IoShareOutline } from "react-icons/io5";
 import { isActive, hasEnded } from "@snapcaster/lib/proposal";
 import api from "@snapcaster/client/api";
 import Layout from "@components/layouts/main";
-import { useProposal } from "@hooks/queries";
+import { useAuthorProfile, useProposalWithResults } from "@hooks/queries";
 import toast from "react-hot-toast";
 import { FrameMetadata } from "@coinbase/onchainkit";
 
@@ -38,7 +38,11 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 }
 
 function Page({ id }: { id: string }) {
-  const { data: proposal, isError } = useProposal(id);
+  const { data: proposal, isError } = useProposalWithResults(id);
+  const { data: author, isError: isAuthorError } = useAuthorProfile(
+    proposal?.proposer_fid,
+    { enabled: !!proposal }
+  );
 
   if (isError) {
     return <Error statusCode={404} />;
@@ -80,22 +84,22 @@ function Page({ id }: { id: string }) {
       </div>
       {proposal && (
         <div className="text-gray-200 mt-2 mb-6 flex gap-3">
-          <span>by arshsingh.eth</span>
+          <span>by {author?.username}</span>
           <span className="text-gray-500 dark:text-gray-100">|</span>
-          {isFuture(proposal?.start_timestamp) && (
+          {isFuture(proposal.start_timestamp) && (
             <span className="text-lime-500 italic">
-              starts in {formatDistanceToNow(proposal?.start_timestamp)}
+              starts in {formatDistanceToNow(proposal.start_timestamp)}
             </span>
           )}
           {isActive(proposal) && (
             <span className="text-amber-500 italic">
-              ends in {formatDistanceToNow(proposal?.end_timestamp)}
+              ends in {formatDistanceToNow(proposal.end_timestamp)}
             </span>
           )}
           {hasEnded(proposal) && (
             <span className="italic">
               ended{" "}
-              {formatDistanceToNow(proposal?.end_timestamp, {
+              {formatDistanceToNow(proposal.end_timestamp, {
                 addSuffix: true,
               })}
             </span>
@@ -109,19 +113,29 @@ function Page({ id }: { id: string }) {
       <div className="flex items-center mt-4">
         <div className="w-28 sm:w-32 shrink-0">
           <p>In favor</p>
-          <p className="text-gray-200 text-sm">239 votes</p>
+          <p className="text-gray-200 text-sm">{proposal?.results.for} votes</p>
         </div>
-        <div className="w-full bg-base-200 h-3 w-full rounded-md overflow-hidden">
-          <div className="bg-primary/70 h-3 w-[65%]"></div>
+        <div className="w-full bg-base-200 h-3 rounded-md overflow-hidden">
+          <div
+            className={`bg-primary/70 h-3 w-[${
+              proposal && proposal.results.for / proposal.results.total
+            }%]`}
+          ></div>
         </div>
       </div>
       <div className="flex items-center mt-4">
         <div className="w-28 sm:w-32 shrink-0">
           <p>Against</p>
-          <p className="text-gray-200 text-sm">42 votes</p>
+          <p className="text-gray-200 text-sm">
+            {proposal?.results.against} votes
+          </p>
         </div>
-        <div className="w-full bg-base-200 h-3 w-full rounded-md overflow-hidden">
-          <div className="bg-primary/70 h-3 w-[35%]"></div>
+        <div className="w-full bg-base-200 h-3 rounded-md overflow-hidden">
+          <div
+            className={`bg-primary/70 h-3 w-[${
+              proposal && proposal.results.against / proposal.results.total
+            }%]`}
+          ></div>
         </div>
       </div>
 

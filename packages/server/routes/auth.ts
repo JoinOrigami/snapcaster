@@ -15,22 +15,20 @@ async function routes(fastify: FastifyInstance) {
     handler: async (request) => {
       fastify.assert(request.fid, 401);
 
-      return { 
+      return {
         fid: request.fid,
       };
-    }
+    },
   });
 
   fastify.post("/auth/nonce", {
     handler: async (request) => {
-      const nonce = (
-        request.session.get("nonce") ||
-        randomBytes(16).toString("hex")
-      );
+      const nonce =
+        request.session.get("nonce") || randomBytes(16).toString("hex");
       request.session.set("nonce", nonce);
 
       return { nonce };
-    }
+    },
   });
 
   fastify.post("/auth/verify", {
@@ -49,13 +47,13 @@ async function routes(fastify: FastifyInstance) {
       });
       const { success, fid } = verifyResponse;
 
-      fastify.assert(success, 400)
+      fastify.assert(success, 400);
 
       request.session.set("nonce", null);
       request.session.set("fid", fid.toString());
 
       return { success: true };
-    }
+    },
   });
 
   fastify.get("/auth/profile", {
@@ -69,7 +67,19 @@ async function routes(fastify: FastifyInstance) {
 
       // TODO: cache profile
       return await getProfile({ fid: request.fid });
-    }
+    },
+  });
+
+  fastify.get("/profile/:fid", {
+    schema: {
+      params: S.ProfileRequestParams,
+      response: {
+        200: S.AuthProfileResponse,
+      },
+    },
+    handler: async (request) => {
+      return await getProfile({ fid: request.params.fid });
+    },
   });
 }
 

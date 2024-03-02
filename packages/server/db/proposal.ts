@@ -2,7 +2,7 @@ import { Insertable, Selectable, Updateable } from "kysely";
 
 import { db, Proposal } from "./index";
 import { isActive } from "@snapcaster/lib/proposal";
-import { findVoteByProposalIdAndFid } from "./vote";
+import { TProposalWithResultsResponse } from "@schemas/proposal";
 
 export const createProposal = async (
   proposal: Insertable<Proposal>
@@ -32,6 +32,28 @@ export const findProposalById = async (id: number) => {
     .where("id", "=", id)
     .selectAll()
     .executeTakeFirst();
+};
+
+export type ProposalResults = { for: number; against: number; total: number };
+export const findProposalResultsById = async (
+  id: number
+): Promise<ProposalResults> => {
+  const results = await db
+    .selectFrom("vote")
+    .where("proposal_id", "=", id)
+    .select(["choice", ({ fn }) => fn.sum<number>("weight").as("weight")])
+    .groupBy(["choice"])
+    .execute();
+
+  const resultsObject: ProposalResults = results.reduce(
+    (acc, result) => ({
+      ...acc,
+      [result.choice === 0 ? "for" : "against"]: result.weight,
+    }),
+    { for: 0, against: 0, total: 0 } // Add the missing 'total' property
+  );
+  resultsObject.total = resultsObject.for + resultsObject.against;
+  return resultsObject;
 };
 
 type EligibilityDetails = {
