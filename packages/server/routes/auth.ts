@@ -44,7 +44,7 @@ async function routes(fastify: FastifyInstance) {
       const verifyResponse = await appClient.verifySignInMessage({
         message: request.body.message,
         signature: request.body.signature,
-        domain: "localhost:3000",
+        domain: "snapcaster.chaindrop.xyz",
         nonce: request.session.nonce,
       });
       const { success, fid } = verifyResponse;

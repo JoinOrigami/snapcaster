@@ -11,8 +11,8 @@ import api from "@snapcaster/client/api";
 import { useQueryClient } from "@tanstack/react-query";
 
 const config = {
-  domain: "localhost:3000",
-  siweUri: "http://localhost:3000",
+  domain: "snapcaster.chaindrop.xyz",
+  siweUri: "https://snapcaster.chaindrop.xyz",
   rpcUrl: "https://optimism-rpc.publicnode.com",
   relay: 'https://relay.farcaster.xyz',
 };

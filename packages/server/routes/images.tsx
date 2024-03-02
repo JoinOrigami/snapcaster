@@ -9,8 +9,6 @@ import type { FastifyInstance } from "@type/fastify";
 import { loadEmoji, getIconCode } from "@lib/twemoji";
 import { findProposalById } from "@db/proposal";
 
-const BASE_URL = process.env.BASE_URL;
-
 const outfitMedium = fs.readFileSync(
   path.join(__dirname, "..", "fonts", "Outfit-Medium.otf")
 );
@@ -82,7 +80,7 @@ const template = (title: string, node: React.ReactNode) => {
           width: "auto",
         }}
       >
-        <img src={`${BASE_URL}/api/images/logo.svg`} width={25} height={30} />
+        <img src={`http://client:3000/frame/logo.svg`} width={25} height={30} />
         <h1
           style={{
             padding: "0",
@@ -154,7 +152,7 @@ async function routes(fastify: FastifyInstance) {
             }}
           >
             <img
-              src={`${BASE_URL}/api/images/logo.svg`}
+              src={`http://client:3000/frame/logo.svg`}
               width={100}
               height={120}
             />
