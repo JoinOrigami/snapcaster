@@ -336,7 +336,13 @@ async function routes(fastify: FastifyInstance) {
       fastify.assert(proposal, 404, "Proposal not found");
 
       const svg = await satori(
-        template(proposal.title, <p>{proposal.summary}</p>),
+        template(
+          proposal.title,
+          <p>
+            {proposal.summary ??
+              "What's the verdict? Speak up and make it count."}
+          </p>
+        ),
         imageConfig
       );
 
