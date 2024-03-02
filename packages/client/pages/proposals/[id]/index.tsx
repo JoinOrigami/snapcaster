@@ -13,6 +13,12 @@ import { FrameMetadata } from "@coinbase/onchainkit";
 
 const BASE_URL = process.env.BASE_URL;
 
+const getPercentage = (num: number, total: number) => {
+  console.log({ num, total });
+  if (total === 0) return 0;
+  return (num / total) * 100;
+};
+
 // TODO: refactor and move auth logic into a common place
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const queryClient = new QueryClient();
@@ -117,9 +123,13 @@ function Page({ id }: { id: string }) {
         </div>
         <div className="w-full bg-base-200 h-3 rounded-md overflow-hidden">
           <div
-            className={`bg-primary/70 h-3 w-[${
-              proposal && proposal.results.for / proposal.results.total
-            }%]`}
+            style={{
+              width: `${
+                proposal &&
+                getPercentage(proposal?.results.for, proposal?.results.total)
+              }%`,
+            }}
+            className="bg-primary/70 h-3"
           ></div>
         </div>
       </div>
@@ -132,9 +142,16 @@ function Page({ id }: { id: string }) {
         </div>
         <div className="w-full bg-base-200 h-3 rounded-md overflow-hidden">
           <div
-            className={`bg-primary/70 h-3 w-[${
-              proposal && proposal.results.against / proposal.results.total
-            }%]`}
+            style={{
+              width: `${
+                proposal &&
+                getPercentage(
+                  proposal?.results.against,
+                  proposal?.results.total
+                )
+              }%`,
+            }}
+            className="bg-primary/70 h-3"
           ></div>
         </div>
       </div>

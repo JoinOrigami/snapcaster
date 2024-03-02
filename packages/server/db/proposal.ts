@@ -48,11 +48,12 @@ export const findProposalResultsById = async (
   const resultsObject: ProposalResults = results.reduce(
     (acc, result) => ({
       ...acc,
-      [result.choice === 0 ? "for" : "against"]: result.weight,
+      [result.choice === 0 ? "for" : "against"]:
+        acc[result.choice === 0 ? "for" : "against"] + Number(result.weight), // Ensure result.weight is treated as a number
+      total: acc.total + Number(result.weight), // Accumulate the total, ensuring weight is a number
     }),
-    { for: 0, against: 0, total: 0 } // Add the missing 'total' property
+    { for: 0, against: 0, total: 0 }
   );
-  resultsObject.total = resultsObject.for + resultsObject.against;
   return resultsObject;
 };
 
