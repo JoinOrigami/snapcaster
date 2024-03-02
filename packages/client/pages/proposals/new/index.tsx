@@ -123,8 +123,7 @@ function Page() {
           <div className="flex gap-4 mt-2">
             <select className="input" {...register("discriminator")}>
               <option value="DEGEN">$DEGEN</option>
-              <option value="PERL">$PERL</option>
-              <option value="FRAME">$FRAME</option>
+              <option value="NOUN">NOUN</option>
             </select>
           </div>
         )}
