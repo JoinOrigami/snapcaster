@@ -1,4 +1,5 @@
 import { NeynarFrameValidationInternalModel } from "@coinbase/onchainkit/lib/utils/neynar/frame/types";
+import { TProfileResponse } from "@snapcaster/server/schemas";
 
 type StateAction = {
   state: {
@@ -40,4 +41,34 @@ export const discriminatorForEligibilityType = (
     },
   };
   return discriminators[eligibilityType][buttonIndex];
+};
+
+export const isMutualFollow = (connection: TProfileResponse) => {
+  return (
+    connection.viewer_context.following && connection.viewer_context.followed_by
+  );
+};
+
+export const isActive = (connection: TProfileResponse) => {
+  return connection.active_status === "active";
+};
+
+export const isFollower = (connection: TProfileResponse) => {
+  return connection.viewer_context.followed_by;
+};
+
+export const isSocialEligible = (
+  discriminator: string,
+  connection: TProfileResponse
+) => {
+  switch (discriminator) {
+    case "mutuals":
+      return isMutualFollow(connection);
+    case "followers":
+      return isFollower(connection);
+    case "active":
+      return isActive(connection);
+    default:
+      return false;
+  }
 };
