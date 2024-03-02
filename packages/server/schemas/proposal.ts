@@ -12,6 +12,7 @@ export const CreateProposalPayload = StrictObject({
   eligibility_type: Type.String({
     enum: ["token", "farcaster"],
   }),
+  discriminator: Type.String(),
   start_timestamp: Type.String({ format: "date-time" }),
   end_timestamp: Type.String({ format: "date-time" }),
   summary: Type.Optional(
@@ -20,7 +21,6 @@ export const CreateProposalPayload = StrictObject({
   description: Type.Optional(
     Nullable(Type.String({ minLength: 1, maxLength: 10000 }))
   ),
-  discriminator: Type.Optional(Nullable(Type.String())),
 });
 
 export type TProposalResponse = Static<typeof ProposalResponse>;

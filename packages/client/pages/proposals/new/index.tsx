@@ -112,14 +112,14 @@ function Page() {
             <input
               type="radio"
               className="radio"
-              value="contract"
+              value="token"
               {...register("eligibility_type")}
             />
             Use token
           </label>
         </div>
 
-        {watch("eligibility_type") === "contract" && (
+        {watch("eligibility_type") === "token" && (
           <div className="flex gap-4 mt-2">
             <select className="input" {...register("discriminator")}>
               <option value="DEGEN">$DEGEN</option>
