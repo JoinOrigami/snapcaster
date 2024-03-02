@@ -89,13 +89,13 @@ function Page({ id }: { id: string }) {
           )}
           {isActive(proposal) && (
             <span className="text-amber-500 italic">
-              ends in {formatDistanceToNow(proposal?.start_timestamp)}
+              ends in {formatDistanceToNow(proposal?.end_timestamp)}
             </span>
           )}
           {hasEnded(proposal) && (
             <span className="italic">
               ended{" "}
-              {formatDistanceToNow(proposal?.start_timestamp, {
+              {formatDistanceToNow(proposal?.end_timestamp, {
                 addSuffix: true,
               })}
             </span>
