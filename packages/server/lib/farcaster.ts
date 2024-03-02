@@ -1,12 +1,15 @@
 import { Hex } from "viem";
 
-export const getProfile = async ({ fid, viewer_fid }: {
+export const getProfile = async ({
+  fid,
+  viewer_fid,
+}: {
   fid: string;
   viewer_fid?: string;
 }): Promise<{
   username: string;
   pfp_url: string;
-  active: boolean;
+  active_status: string;
   viewer_context: {
     following: boolean;
     followed_by: boolean;
@@ -23,9 +26,9 @@ export const getProfile = async ({ fid, viewer_fid }: {
 
   const res = await fetch(url, {
     headers: {
-      "api_key": process.env.NEYNAR_API_KEY,
+      api_key: process.env.NEYNAR_API_KEY,
     } as any,
   }).then((res) => res.json());
 
   return res?.users?.[0];
-}
+};
