@@ -16,7 +16,7 @@ type FormValues = {
   _votingPeriod: string;
   summary: string;
   description: string;
-  eligibility_type: string;
+  eligibility: string;
   discriminator: string;
 };
 
@@ -62,16 +62,18 @@ function Page({
   const { watch, register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       title: title,
-      discriminator: eligibilityType === "token" ? discriminator : "",
-      eligibility_type:
-        eligibilityType === "farcaster" ? discriminator : "token" ?? "mutuals",
+      discriminator: discriminator ?? "mutuals",
+      eligibility: `${eligibilityType || "farcaster"},${discriminator || "mutuals"}`,
       _votingPeriod: "24",
     },
   });
 
   const submit = (data: FormValues) => {
+    const [eligibility_type, discriminator] = data.eligibility.split(",");
     const proposal: S.TCreateProposalPayload = {
       ...data,
+      eligibility_type,
+      discriminator,
       start_timestamp: new Date().toISOString(),
       end_timestamp: add(new Date(), {
         hours: parseInt(data._votingPeriod),
@@ -93,54 +95,65 @@ function Page({
     <div className="container-sm">
       <h1 className="mb-6">New proposal</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(submit)}>
-        <h4>Who can vote?</h4>
-        <div className="flex flex-col sm:flex-row gap-4 sm:items-center mt-2">
-          <label className="flex items-center gap-2">
-            <input
-              type="radio"
-              className="radio"
-              value="mutuals"
-              {...register("eligibility_type")}
-            />
-            Mutuals
-          </label>
-          <label className="flex items-center gap-2">
-            <input
-              type="radio"
-              className="radio"
-              value="followers"
-              {...register("eligibility_type")}
-            />
-            Followers
-          </label>
-          <label className="flex items-center gap-2">
-            <input
-              type="radio"
-              className="radio"
-              value="active"
-              {...register("eligibility_type")}
-            />
-            Active
-          </label>
-          <label className="flex items-center gap-2">
-            <input
-              type="radio"
-              className="radio"
-              value="token"
-              {...register("eligibility_type")}
-            />
-            Use token
-          </label>
+        <h4 className="my-1">Who can vote?</h4>
+        <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 md:gap-12">
+          <div>
+            <p className="text-sm text-gray-200 italic pb-1">Farcaster</p>
+            <div className="flex flex-col sm:flex-row gap-4 sm:items-center mt-2">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  className="radio"
+                  value="farcaster,mutuals"
+                  {...register("eligibility")}
+                />
+                Mutuals
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  className="radio"
+                  value="farcaster,followers"
+                  {...register("eligibility")}
+                />
+                Followers
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  className="radio"
+                  value="farcaster,active"
+                  {...register("eligibility")}
+                />
+                Active
+              </label>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm text-gray-200 italic pb-1">Token</p>
+            <div className="flex flex-col sm:flex-row gap-4 sm:items-center mt-2">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  className="radio"
+                  value="token,DEGEN"
+                  {...register("eligibility")}
+                />
+                DEGEN
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  className="radio"
+                  value="token,NOUN"
+                  {...register("eligibility")}
+                />
+                NOUN
+              </label>
+            </div>
+          </div>
         </div>
 
-        {watch("eligibility_type") === "token" && (
-          <div className="flex gap-4 mt-2">
-            <select className="input" {...register("discriminator")}>
-              <option value="DEGEN">$DEGEN</option>
-              <option value="NOUN">NOUN</option>
-            </select>
-          </div>
-        )}
         <div className="flex flex-col sm:flex-row gap-6 lg:gap-24 border-t border-base-300 mt-4 pt-6">
           <label className="label flex-[7]">
             Title
