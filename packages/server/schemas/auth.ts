@@ -18,3 +18,7 @@ export const AuthProfileResponse = StrictObject({
   username: Type.String(),
   pfp_url: Nullable(Type.String()),
 });
+
+export const ProfileRequestParams = StrictObject({
+  fid: Type.String(),
+});

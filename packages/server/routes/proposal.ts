@@ -4,6 +4,7 @@ import type { FastifyInstance } from "@snapcaster/server/types/fastify";
 import {
   createProposal,
   findProposalById,
+  findProposalResultsById,
   isUserEligibleToVote,
   updateProposal,
 } from "@db/proposal";
@@ -56,12 +57,12 @@ async function routes(fastify: FastifyInstance) {
     schema: {
       params: S.ProposalRequestParams,
       response: {
-        200: S.ProposalResponse,
+        200: S.ProposalWithResultsResponse,
       },
     },
     handler: async (request) => {
       const proposal = await findProposalById(request.params.id);
-
+      const results = await findProposalResultsById(request.params.id);
       // make sure the proposal exists and is submitted on-chain
       fastify.assert(proposal?.tx_hash, 404);
 
@@ -69,6 +70,7 @@ async function routes(fastify: FastifyInstance) {
         ...proposal,
         start_timestamp: serializeDate(proposal.start_timestamp),
         end_timestamp: serializeDate(proposal.end_timestamp),
+        results,
       };
     },
   });
