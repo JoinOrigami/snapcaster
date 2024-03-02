@@ -31,7 +31,7 @@ export const discriminatorForEligibilityType = (
   const discriminators = {
     farcaster: {
       1: "mutuals",
-      2: "follows",
+      2: "followers",
       3: "active",
     },
     token: {

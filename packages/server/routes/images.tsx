@@ -229,7 +229,7 @@ async function routes(fastify: FastifyInstance) {
           "Who Can Vote",
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div>Mutuals: accounts you follow that follow you back</div>
-            <div>Follows: accounts you follow</div>
+            <div>Followers: accounts that follow you</div>
             <div>Active: accounts with the "Active" badge</div>
             <div style={{ marginTop: "1rem" }}>
               Edit on the web for more options!

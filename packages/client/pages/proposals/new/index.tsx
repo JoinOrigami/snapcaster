@@ -94,10 +94,10 @@ function Page() {
             <input
               type="radio"
               className="radio"
-              value="follows"
+              value="followers"
               {...register("eligibility_type")}
             />
-            Follows
+            Followers
           </label>
           <label className="flex items-center gap-2">
             <input
